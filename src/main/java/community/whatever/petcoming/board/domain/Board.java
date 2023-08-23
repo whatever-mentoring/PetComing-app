@@ -17,6 +17,6 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = true, length = 255)
+    @Column(name = "name", unique = true, nullable = false, length = 255)
     private String name;
 }
