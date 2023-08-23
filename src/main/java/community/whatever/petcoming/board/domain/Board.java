@@ -9,8 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name = "board")
 @Entity
+@Table(name = "board")
 public class Board extends BaseEntity {
 
     @Id

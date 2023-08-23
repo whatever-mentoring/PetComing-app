@@ -9,8 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name = "post_comment")
 @Entity
+@Table(name = "post_comment")
 public class PostComment extends BaseEntity {
 
     @Id

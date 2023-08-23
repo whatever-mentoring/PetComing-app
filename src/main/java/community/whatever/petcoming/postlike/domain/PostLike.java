@@ -10,12 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+@Entity
 @Table(
         name = "post_like",
         uniqueConstraints = @UniqueConstraint(
                 columnNames = {"post_id", "liker_id"}
         ))
-@Entity
 public class PostLike extends BaseEntity {
 
     @Id

@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Table(name = "post_tag")
 @Entity
+@Table(name = "post_tag")
 public class PostTag extends BaseEntity {
 
     @Id

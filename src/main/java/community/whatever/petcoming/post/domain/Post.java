@@ -14,8 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @NoArgsConstructor
-@Table(name = "post")
 @Entity
+@Table(name = "post")
 public class Post extends BaseEntity {
 
     @Id

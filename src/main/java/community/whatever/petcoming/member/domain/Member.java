@@ -14,8 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @NoArgsConstructor
-@Table(name = "member")
 @Entity
+@Table(name = "member")
 public class Member extends BaseEntity {
 
     @Id
