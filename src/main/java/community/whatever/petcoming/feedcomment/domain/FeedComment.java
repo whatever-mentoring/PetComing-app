@@ -1,4 +1,4 @@
-package community.whatever.petcoming.postcomment.domain;
+package community.whatever.petcoming.feedcomment.domain;
 
 import community.whatever.petcoming.common.domain.BaseEntity;
 
@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "post_comment")
-public class PostComment extends BaseEntity {
+@Table(name = "feed_comment")
+public class FeedComment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +20,8 @@ public class PostComment extends BaseEntity {
     @Column(name = "content", length = 255)
     private String content;
 
-    @Column(name = "post_id")
-    private Long postId;
+    @Column(name = "feed_id")
+    private Long feedId;
 
     @Column(name = "author_id")
     private Long authorId;

@@ -1,4 +1,4 @@
-package community.whatever.petcoming.post.domain;
+package community.whatever.petcoming.feed.domain;
 
 public enum AnimalGender {
     MALE,

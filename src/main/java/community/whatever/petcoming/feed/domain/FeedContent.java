@@ -1,27 +1,25 @@
-package community.whatever.petcoming.posttag.domain;
+package community.whatever.petcoming.feed.domain;
 
 import community.whatever.petcoming.common.domain.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "post_tag")
-public class PostTag extends BaseEntity {
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "feed_content")
+public abstract class FeedContent extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private TagItem tagItem;
-
-    @Column(name = "post_id")
-    private Long postId;
+    @Column(name = "content", length = 5000)
+    private String content;
 }

@@ -1,4 +1,4 @@
-package community.whatever.petcoming.post.domain;
+package community.whatever.petcoming.feed.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,8 +7,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "find_post_content")
-public class FindPostContent extends PostContent {
+@Table(name = "find_feed_content")
+public class FindFeedContent extends FeedContent {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "animal_type")

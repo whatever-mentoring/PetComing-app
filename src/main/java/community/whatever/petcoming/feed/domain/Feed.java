@@ -1,4 +1,4 @@
-package community.whatever.petcoming.post.domain;
+package community.whatever.petcoming.feed.domain;
 
 import community.whatever.petcoming.common.domain.BaseEntity;
 import lombok.Builder;
@@ -15,8 +15,8 @@ import javax.persistence.Table;
 
 @NoArgsConstructor
 @Entity
-@Table(name = "post")
-public class Post extends BaseEntity {
+@Table(name = "feed")
+public class Feed extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Post extends BaseEntity {
     private String title;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private PostContent content;
+    private FeedContent content;
 
     @Column(name = "author_id")
     private Long authorId;
@@ -41,7 +41,7 @@ public class Post extends BaseEntity {
     private boolean isDeleted;
 
     @Builder
-    public Post(Long id, String title, PostContent content, Long authorId, Long boardId, Long viewCount, boolean isDeleted) {
+    public Feed(Long id, String title, FeedContent content, Long authorId, Long boardId, Long viewCount, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.content = content;

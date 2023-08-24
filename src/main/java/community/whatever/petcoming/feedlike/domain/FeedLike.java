@@ -1,4 +1,4 @@
-package community.whatever.petcoming.postlike.domain;
+package community.whatever.petcoming.feedlike.domain;
 
 import community.whatever.petcoming.common.domain.BaseEntity;
 
@@ -12,18 +12,18 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(
-        name = "post_like",
+        name = "feed_like",
         uniqueConstraints = @UniqueConstraint(
-                columnNames = {"post_id", "liker_id"}
+                columnNames = {"feed_id", "liker_id"}
         ))
-public class PostLike extends BaseEntity {
+public class FeedLike extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "post_id")
-    private Long postId; // PostInfo fk
+    @Column(name = "feed_id")
+    private Long feedId; // Feed fk
 
     @Column(name = "liker_id")
     private Long likerId; // Member fk
