@@ -3,9 +3,10 @@ package community.whatever.petcoming.feed.dto;
 import community.whatever.petcoming.feed.domain.AnimalGender;
 import community.whatever.petcoming.feed.domain.AnimalType;
 import community.whatever.petcoming.feed.domain.LostPetFeedInfoDto;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class LostPetFeedInfoResponse {
 
     private final Long feedId;
