@@ -1,0 +1,9 @@
+=== 찾아주세요 피드 API
+
+==== 1. 피드 목록 조회
+
+===== Request
+include::{snippets}/api/v1/feed/lost-pet/http-request.adoc[]
+
+===== Response
+include::{snippets}/api/v1/feed/lost-pet/http-response.adoc[]
