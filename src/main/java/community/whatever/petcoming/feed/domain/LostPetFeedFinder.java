@@ -3,6 +3,7 @@ package community.whatever.petcoming.feed.domain;
 import community.whatever.petcoming.member.domain.Member;
 import community.whatever.petcoming.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,9 +17,9 @@ public class LostPetFeedFinder {
     private final MemberRepository memberRepository;
     private final LostPetFeedRepository lostPetFeedRepository;
 
-    // todo JOIN으로 변경?
-    public List<LostPetFeedInfoDto> getLostPetFeedInfoList() {
-        List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findAll();
+    public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
+        Pageable pageable = sort.getPageable(size);
+        List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findByIdLessThan(lastFeedId, pageable);
 
         List<LostPetFeedInfoDto> dtoList = new ArrayList<>();
         for (LostPetFeed feed : lostPetFeeds) {
@@ -33,8 +34,8 @@ public class LostPetFeedFinder {
                     .animalGender(feed.getAnimalGender())
                     .breed(feed.getBreed())
                     .imageUrl(null) // todo 이거 왜 없니 (3개니까 Table 하나 더 만들어야겠다)
-                    .viewCount(null)
-                    .likeCount(null)
+                    .viewCount(100L)
+                    .likeCount(100L)
                     .build();
 
             dtoList.add(dto);
