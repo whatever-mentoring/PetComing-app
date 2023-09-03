@@ -58,10 +58,6 @@ asciidoctor {
 	dependsOn test
 }
 
-asciidoctor.doFirst {
-	delete file('src/main/resources/static/docs')
-}
-
 tasks.register('copyDocument', Copy) {
 	dependsOn asciidoctor
 	from "${asciidoctor.outputDir}"
