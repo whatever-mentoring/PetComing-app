@@ -64,11 +64,10 @@ asciidoctor.doFirst {
 
 tasks.register('copyDocument', Copy) {
 	dependsOn asciidoctor
-
-	from "${asciidoctor.outputDir}"
-	into file("src/main/resources/static/docs")
+	from file("${asciidoctor.outputDir}")
+	into file("build/resources/main/static")
 }
 
-build {
+bootJar {
 	dependsOn copyDocument
 }
