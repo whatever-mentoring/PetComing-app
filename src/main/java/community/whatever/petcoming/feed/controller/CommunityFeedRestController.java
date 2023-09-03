@@ -1,8 +1,8 @@
 package community.whatever.petcoming.feed.controller;
 
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
-import community.whatever.petcoming.feed.dto.LostPetFeedInfoResponse;
-import community.whatever.petcoming.feed.service.LostPetFeedService;
+import community.whatever.petcoming.feed.dto.CommunityFeedResponse;
+import community.whatever.petcoming.feed.service.CommunityFeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,27 +14,27 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/feed/lost-pet")
-public class LostPetFeedRestController {
+@RequestMapping("/api/v1/feed/community")
+public class CommunityFeedRestController {
 
-    private final LostPetFeedService lostPetFeedService;
+    private final CommunityFeedService communityFeedService;
 
     @GetMapping(params = {"size"})
-    public ResponseEntity<List<LostPetFeedInfoResponse>> getLostPetFeedInfoList(
+    public ResponseEntity<List<CommunityFeedResponse>> getCommunityFeedInfoList(
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
         if (sort == null) {sort = FeedsSortOption.LATEST;}
-        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(size, sort));
+        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(size, sort));
     }
 
     @GetMapping(params = {"last-feed", "size"})
-    public ResponseEntity<List<LostPetFeedInfoResponse>> getLostPetFeedInfoList(
+    public ResponseEntity<List<CommunityFeedResponse>> getCommunityFeedInfoList(
             @RequestParam("last-feed") Long lastFeedId,
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
         if (sort == null) {sort = FeedsSortOption.LATEST;}
-        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(lastFeedId, size, sort));
+        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(lastFeedId, size, sort));
     }
 }

@@ -11,29 +11,25 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class LostPetFeedFinder {
+public class CommunityFeedFinder {
 
-    // todo MemberFinder로 변경
     private final MemberRepository memberRepository;
-    private final LostPetFeedRepository lostPetFeedRepository;
+    private final CommunityFeedRepository communityFeedRepository;
 
-    public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
+    public List<CommunityFeedInfoDto> getCommunityFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
         Pageable pageable = sort.getPageable(size);
-        List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findByIdLessThan(lastFeedId, pageable);
 
-        List<LostPetFeedInfoDto> dtoList = new ArrayList<>();
-        for (LostPetFeed feed : lostPetFeeds) {
+        List<CommunityFeed> communityFeeds = communityFeedRepository.findByIdLessThan(lastFeedId, pageable);
+
+        List<CommunityFeedInfoDto> dtoList = new ArrayList<>();
+        for (CommunityFeed feed : communityFeeds) {
             Member author = memberRepository.findById(feed.getAuthorId()).orElseThrow();
             String authorNickname = author.getNickname();
 
-            LostPetFeedInfoDto dto = LostPetFeedInfoDto.builder()
+            CommunityFeedInfoDto dto = CommunityFeedInfoDto.builder()
                     .feedId(feed.getId())
-                    .specialNote(feed.getTitle())
+                    .title(feed.getTitle())
                     .authorName(authorNickname)
-                    .animalType(feed.getAnimalType())
-                    .animalGender(feed.getAnimalGender())
-                    .breed(feed.getBreed())
-                    // todo 이거 왜 없니 (3개니까 Table 하나 더 만들어야겠다)
                     .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
                     .viewCount(100L)
                     .likeCount(100L)

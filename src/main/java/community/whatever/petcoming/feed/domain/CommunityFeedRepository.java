@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface LostPetFeedRepository extends JpaRepository<LostPetFeed, Long> {
+public interface CommunityFeedRepository extends JpaRepository<CommunityFeed, Long> {
 
-    List<LostPetFeed> findByIdLessThan(Long lastFeedId, Pageable pageable);
+    List<CommunityFeed> findByIdLessThan(Long lastFeedId, Pageable pageable);
 }
