@@ -51,7 +51,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
+asciidoctor {
 	configurations 'asciidoctorExtensions'
 	baseDirFollowsSourceFile()
 	inputs.dir snippetsDir
@@ -64,10 +64,14 @@ asciidoctor.doFirst {
 
 tasks.register('copyDocument', Copy) {
 	dependsOn asciidoctor
-	from file("${asciidoctor.outputDir}")
+	from "${asciidoctor.outputDir}"
 	into file("build/resources/main/static")
 }
 
-bootJar {
-	dependsOn copyDocument
+jar {
+	dependsOn 'copyDocument'
+}
+
+bootJarMainClassName {
+	dependsOn 'copyDocument'
 }
