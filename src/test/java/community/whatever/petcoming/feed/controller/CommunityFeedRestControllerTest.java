@@ -34,7 +34,7 @@ class CommunityFeedRestControllerTest {
     private CommunityFeedService communityFeedService;
 
     private final String getCommunityInfoListUrl = "/api/v1/feed/community/";
-    private final String DOCUMENT_IDENTIFIER_PREFIX = "/CommunityFeed/";
+    private final String DOCUMENT_IDENTIFIER_PREFIX = "CommunityFeed/";
 
     @Test
     @DisplayName("댕글냥글 피드 목록 조회. 첫 조회")
