@@ -101,7 +101,7 @@ class CommunityFeedRestControllerTest {
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(
-                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX+"목록_첫조회",
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX+"목록_재조회",
                                 Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                                 Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
                         )

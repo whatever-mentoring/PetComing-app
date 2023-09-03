@@ -22,3 +22,4 @@
 == API
 
 include::lostPet.adoc[]
+include::communityFeed.adoc[]
