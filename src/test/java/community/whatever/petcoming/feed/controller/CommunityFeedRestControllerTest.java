@@ -34,7 +34,7 @@ class CommunityFeedRestControllerTest {
     private CommunityFeedService communityFeedService;
 
     private final String getCommunityInfoListUrl = "/api/v1/feed/community/";
-    private final String DOCUMENT_IDENTIFIER_PREFIX = "/CommunityFeed/";
+    private final String DOCUMENT_IDENTIFIER_PREFIX = "CommunityFeed/";
 
     @Test
     @DisplayName("댕글냥글 피드 목록 조회. 첫 조회")
@@ -89,6 +89,7 @@ class CommunityFeedRestControllerTest {
         list.add(response);
 
         BDDMockito.given(communityFeedService.getCommunityFeedInfoList(
+                        ArgumentMatchers.any(Long.class),
                         ArgumentMatchers.any(Integer.class),
                         ArgumentMatchers.any(FeedsSortOption.class)))
                 .willReturn(list);
@@ -97,7 +98,7 @@ class CommunityFeedRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get(getCommunityInfoListUrl)
                         .param("last-feed", "1")
                         .param("size", "10")
-                        .param("sort", "LATEST")
+                        .param("sort", "POPULAR")
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(

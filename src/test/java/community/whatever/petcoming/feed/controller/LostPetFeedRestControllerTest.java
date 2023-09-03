@@ -36,7 +36,7 @@ class LostPetFeedRestControllerTest {
     private LostPetFeedService lostPetFeedService;
 
     private final String getLostPetFeedInfoListUrl = "/api/v1/feed/lost-pet/";
-    private final String DOCUMENT_IDENTIFIER_PREFIX = "/LostPetFeed/";
+    private final String DOCUMENT_IDENTIFIER_PREFIX = "LostPetFeed/";
 
     @Test
     @DisplayName("찾아주세요 피드 목록 조회. 첫 조회")
