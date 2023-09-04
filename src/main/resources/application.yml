@@ -1,16 +1,3 @@
-# hibernate settings
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-
-#logging
-logging:
-  level:
-    asc:
-      portfolio:
-        ascSb: debug
+  profiles:
+    active: dev
