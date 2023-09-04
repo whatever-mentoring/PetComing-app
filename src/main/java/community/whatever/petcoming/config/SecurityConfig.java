@@ -26,8 +26,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/api/v1/member/permitAll").permitAll()
-                .antMatchers("/api/v1/feed/lost-pet/**", "/api/v1/feed/community/**").permitAll()
+                .antMatchers("/", "/api/v1/member/permitAll", "/api/v1/feed/community/**", "/api/v1/feed/lost-pet/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login(
