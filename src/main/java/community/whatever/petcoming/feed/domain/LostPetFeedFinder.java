@@ -17,6 +17,10 @@ public class LostPetFeedFinder {
     private final MemberRepository memberRepository;
     private final LostPetFeedRepository lostPetFeedRepository;
 
+    public LostPetFeed findById(Long feedId) {
+        return lostPetFeedRepository.findById(feedId).orElseThrow();
+    }
+
     public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
         Pageable pageable = sort.getPageable(size);
         List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findByIdLessThan(lastFeedId, pageable);
@@ -42,5 +46,26 @@ public class LostPetFeedFinder {
         }
 
         return dtoList;
+    }
+
+    public LostPetFeedFullDto getLostPetFeedFull(Long feedId) {
+        LostPetFeed feed = findById(feedId);
+        String details = feed.getContent();
+        Member author = memberRepository.findById(feed.getAuthorId()).orElseThrow();
+        String authorNickname = author.getNickname();
+
+        return LostPetFeedFullDto.builder()
+                .feedId(feedId)
+                .specialNote(feed.getTitle())
+                .authorName(authorNickname)
+                .animalType(feed.getAnimalType())
+                .animalGender(feed.getAnimalGender())
+                .breed(feed.getBreed())
+                .viewCount(100L)
+                .likeCount(100L)
+                .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
+                .details(details)
+                .createDate(feed.getCreateDate())
+                .build();
     }
 }
