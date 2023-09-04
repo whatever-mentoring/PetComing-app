@@ -21,7 +21,7 @@ DEPLOY_PATH=/home/ec2-user/
 cp $BUILD_JAR $DEPLOY_PATH
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
-PROPERTIES_LIST=file:/home/ec2-user/build/src/main/resources/application.yml
+PROPERTIES_LIST=file:/home/ec2-user/resources/application.yml,file:/home/ec2-user/resources/application-prod.yml
 echo "> DEPLOY_JAR deploy" >> /home/ec2-user/deploy.log
 echo "> properties: $PROPERTIES_LIST" >> /home/ec2-user/deploy.log
 nohup java -jar -Dspring.config.location=$PROPERTIES_LIST $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
