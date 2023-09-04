@@ -1,12 +1,15 @@
 package community.whatever.petcoming.member.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
 public class SocialUserInfo {
 
@@ -18,11 +21,4 @@ public class SocialUserInfo {
 
     @Column(name = "social_nickname")
     private String socialNickname;
-
-    @Builder
-    public SocialUserInfo(String providerId, String subject, String socialNickname) {
-        this.providerId = providerId;
-        this.subject = subject;
-        this.socialNickname = socialNickname;
-    }
 }
