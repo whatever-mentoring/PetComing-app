@@ -151,12 +151,13 @@ class LostPetFeedRestControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(
                         MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "전체피드조회",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
                                 RequestDocumentation.pathParameters(
                                         RequestDocumentation.parameterWithName("feedId").description("피드 Identifier")
                                 )
                         )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk());
-
     }
 }
