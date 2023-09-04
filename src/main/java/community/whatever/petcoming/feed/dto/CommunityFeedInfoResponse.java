@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CommunityFeedResponse {
+public class CommunityFeedInfoResponse {
 
     private final Long feedId;
     private final String title;
@@ -17,8 +17,8 @@ public class CommunityFeedResponse {
     private final Long viewCount;
     private final Long likeCount;
 
-    public static CommunityFeedResponse of(CommunityFeedInfoDto dto) {
-        return CommunityFeedResponse.builder()
+    public static CommunityFeedInfoResponse of(CommunityFeedInfoDto dto) {
+        return CommunityFeedInfoResponse.builder()
                 .feedId(dto.getFeedId())
                 .title(dto.getTitle())
                 .authorName(dto.getAuthorName())

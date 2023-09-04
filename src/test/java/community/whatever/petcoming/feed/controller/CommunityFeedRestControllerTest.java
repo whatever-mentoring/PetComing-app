@@ -1,7 +1,7 @@
 package community.whatever.petcoming.feed.controller;
 
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
-import community.whatever.petcoming.feed.dto.CommunityFeedResponse;
+import community.whatever.petcoming.feed.dto.CommunityFeedInfoResponse;
 import community.whatever.petcoming.feed.service.CommunityFeedService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,8 +41,8 @@ class CommunityFeedRestControllerTest {
     void 첫조회_CommunityFeedInfoList() throws Exception {
 
         //given
-        List<CommunityFeedResponse> list = new ArrayList<>();
-        CommunityFeedResponse response = CommunityFeedResponse.builder()
+        List<CommunityFeedInfoResponse> list = new ArrayList<>();
+        CommunityFeedInfoResponse response = CommunityFeedInfoResponse.builder()
                 .feedId(10L)
                 .title("고양이가 귀여워요")
                 .authorName("집사1")
@@ -77,8 +77,8 @@ class CommunityFeedRestControllerTest {
     void 재조회_CommunityFeedInfoList() throws Exception {
 
         //given
-        List<CommunityFeedResponse> list = new ArrayList<>();
-        CommunityFeedResponse response = CommunityFeedResponse.builder()
+        List<CommunityFeedInfoResponse> list = new ArrayList<>();
+        CommunityFeedInfoResponse response = CommunityFeedInfoResponse.builder()
                 .feedId(10L)
                 .title("고양이가 귀여워요")
                 .authorName("집사1")

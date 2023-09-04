@@ -3,9 +3,11 @@ package community.whatever.petcoming.feed.domain;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
-public class CommunityFeedInfoDto {
+public class CommunityFeedFullDto {
 
     private final Long feedId;
     private final String title;
@@ -15,4 +17,7 @@ public class CommunityFeedInfoDto {
     private final Long likeCount;
 
     private final String imageUrl;
+    private final String content;
+
+    private final LocalDateTime createDate;
 }
