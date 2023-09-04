@@ -33,4 +33,8 @@ public abstract class Feed extends BaseEntity {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    public String getContent() {
+        return content.getContent();
+    }
 }

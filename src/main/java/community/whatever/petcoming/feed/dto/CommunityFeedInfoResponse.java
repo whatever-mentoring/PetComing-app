@@ -5,7 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CommunityFeedResponse {
+@Builder
+public class CommunityFeedInfoResponse {
 
     private final Long feedId;
     private final String title;
@@ -16,18 +17,8 @@ public class CommunityFeedResponse {
     private final Long viewCount;
     private final Long likeCount;
 
-    @Builder
-    public CommunityFeedResponse(Long feedId, String title, String authorName, String imageUrl, Long viewCount, Long likeCount) {
-        this.feedId = feedId;
-        this.title = title;
-        this.authorName = authorName;
-        this.imageUrl = imageUrl;
-        this.viewCount = viewCount;
-        this.likeCount = likeCount;
-    }
-
-    public static CommunityFeedResponse of(CommunityFeedInfoDto dto) {
-        return CommunityFeedResponse.builder()
+    public static CommunityFeedInfoResponse of(CommunityFeedInfoDto dto) {
+        return CommunityFeedInfoResponse.builder()
                 .feedId(dto.getFeedId())
                 .title(dto.getTitle())
                 .authorName(dto.getAuthorName())

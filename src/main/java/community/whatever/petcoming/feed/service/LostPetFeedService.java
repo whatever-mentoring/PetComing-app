@@ -2,7 +2,9 @@ package community.whatever.petcoming.feed.service;
 
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
 import community.whatever.petcoming.feed.domain.LostPetFeedFinder;
+import community.whatever.petcoming.feed.domain.LostPetFeedFullDto;
 import community.whatever.petcoming.feed.domain.LostPetFeedInfoDto;
+import community.whatever.petcoming.feed.dto.LostPetFeedFullResponse;
 import community.whatever.petcoming.feed.dto.LostPetFeedInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,10 @@ public class LostPetFeedService {
         return dtoList.stream()
                 .map(LostPetFeedInfoResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    public LostPetFeedFullResponse getLostPetFeedFull(Long feedId) {
+        LostPetFeedFullDto fullDto = lostPetFeedFinder.getLostPetFeedFull(feedId);
+        return LostPetFeedFullResponse.of(fullDto);
     }
 }

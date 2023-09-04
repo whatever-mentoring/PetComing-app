@@ -1,11 +1,13 @@
 package community.whatever.petcoming.feed.controller;
 
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
-import community.whatever.petcoming.feed.dto.CommunityFeedResponse;
+import community.whatever.petcoming.feed.dto.CommunityFeedFullResponse;
+import community.whatever.petcoming.feed.dto.CommunityFeedInfoResponse;
 import community.whatever.petcoming.feed.service.CommunityFeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +22,7 @@ public class CommunityFeedRestController {
     private final CommunityFeedService communityFeedService;
 
     @GetMapping(params = {"size"})
-    public ResponseEntity<List<CommunityFeedResponse>> getCommunityFeedInfoList(
+    public ResponseEntity<List<CommunityFeedInfoResponse>> getCommunityFeedInfoList(
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
@@ -29,12 +31,17 @@ public class CommunityFeedRestController {
     }
 
     @GetMapping(params = {"last-feed", "size"})
-    public ResponseEntity<List<CommunityFeedResponse>> getCommunityFeedInfoList(
+    public ResponseEntity<List<CommunityFeedInfoResponse>> getCommunityFeedInfoList(
             @RequestParam("last-feed") Long lastFeedId,
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
         if (sort == null) {sort = FeedsSortOption.LATEST;}
         return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(lastFeedId, size, sort));
+    }
+
+    @GetMapping("/{feedId}")
+    public ResponseEntity<CommunityFeedFullResponse> getCommunityFeedFull(@PathVariable Long feedId) {
+        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedFull(feedId));
     }
 }
