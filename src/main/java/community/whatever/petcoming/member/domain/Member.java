@@ -1,6 +1,8 @@
 package community.whatever.petcoming.member.domain;
 
 import community.whatever.petcoming.common.domain.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +15,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "member")
+@Table(name = "member",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"provider_id", "subject"}))
 public class Member extends BaseEntity {
 
     @Id
