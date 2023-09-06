@@ -19,6 +19,7 @@ public class LostPetFeedFullResponse {
     private final AnimalType animalType;
     private final AnimalGender animalGender;
     private final String breed;
+    private final String lostArea;
 
     private final Long viewCount;
     private final Long likeCount;
@@ -36,6 +37,7 @@ public class LostPetFeedFullResponse {
                 .animalType(fullDto.getAnimalType())
                 .animalGender(fullDto.getAnimalGender())
                 .breed(fullDto.getBreed())
+                .lostArea(fullDto.getLostArea())
                 .viewCount(fullDto.getViewCount())
                 .likeCount(fullDto.getLikeCount())
                 .imageUrl(fullDto.getImageUrl())

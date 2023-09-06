@@ -26,7 +26,7 @@ public class LostPetFeed extends Feed {
     @Column(name = "breed", length = 32)
     private String breed; // 품종
 
-    @Column(name = "lost_area", length = 127)
+    @Column(name = "lost_area", length = 255)
     private String lostArea;
 
     @Column(name = "contact", length = 32)

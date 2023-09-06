@@ -16,6 +16,7 @@ public class LostPetFeedFullDto {
     private final AnimalType animalType;
     private final AnimalGender animalGender;
     private final String breed;
+    private final String lostArea;
 
     private final Long viewCount;
     private final Long likeCount;
