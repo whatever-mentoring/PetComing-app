@@ -1,5 +1,6 @@
-package community.whatever.petcoming.config;
+package community.whatever.petcoming.config.security;
 
+import community.whatever.petcoming.config.security.authentication.AjaxAuthenticationEntryPoint;
 import community.whatever.petcoming.member.service.CustomOidcUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -26,8 +28,11 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/api/v1/member/permitAll", "/api/v1/feed/community/**", "/api/v1/feed/lost-pet/**").permitAll()
+                .antMatchers("/", "/api/v1/member/auth-check", "/api/v1/feed/community/**", "/api/v1/feed/lost-pet/**").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new AjaxAuthenticationEntryPoint())
                 .and()
                 .oauth2Login(
                         oauth2 -> oauth2.userInfoEndpoint(
@@ -36,6 +41,7 @@ public class SecurityConfig {
                         )
                 )
                 .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
