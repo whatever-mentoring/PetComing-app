@@ -1,6 +1,8 @@
 package community.whatever.petcoming.config.security;
 
 import community.whatever.petcoming.config.security.authentication.AjaxAuthenticationEntryPoint;
+import community.whatever.petcoming.config.security.authentication.CustomLoginSuccessHandler;
+import community.whatever.petcoming.config.security.authentication.CustomLogoutSuccessHandler;
 import community.whatever.petcoming.member.service.CustomOidcUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -35,14 +37,15 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new AjaxAuthenticationEntryPoint())
                 .and()
                 .oauth2Login(
-                        oauth2 -> oauth2.userInfoEndpoint(
-                                userInfoEndpointConfig -> userInfoEndpointConfig
-                                        .oidcUserService(customOidcUserService)
-                        )
+                        oauth2 -> oauth2
+                                .userInfoEndpoint(
+                                        userInfoEndpointConfig -> userInfoEndpointConfig.oidcUserService(customOidcUserService)
+                                )
+                                .successHandler(new CustomLoginSuccessHandler())
                 )
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                .logoutSuccessUrl("/")
+                .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")

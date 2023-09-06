@@ -1,0 +1,47 @@
+== 인증
+
+=== 1. 카카오 소셜 로그인
+
+==== 1.1 로그인
+
+"https://kauth.kakao.com/oauth/authorize"로 리디렉트 되어 카카오 사용자 로그인을 진행하고, 로그인 성공 시 Http Status 200 OK를 반환 합니다.
+
+카카오 로그인 버튼이 이 경로로 링크 되어야 합니다.
+
+===== Request
+
+[source,http]
+----
+GET http://3.34.210.88:8080/oauth2/authorization/kakao
+----
+
+===== Response
+
+[source,http]
+----
+HTTP/1.1 200 OK
+Content-Type: text/plain
+
+Login successful
+----
+
+==== 1.2 로그아웃
+
+세션 토큰(JSESSIONID)과 세션을 삭제하고, Http Status 200 OK를 반환 합니다.
+
+===== Request
+
+[source,http]
+----
+GET http://3.34.210.88:8080/logout
+----
+
+===== Response
+
+[source,http]
+----
+HTTP/1.1 200 OK
+Content-Type: text/plain
+
+Logout successful
+----
