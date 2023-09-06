@@ -21,5 +21,6 @@
 
 == API
 
+include::auth.adoc[]
 include::lostPet.adoc[]
 include::communityFeed.adoc[]
