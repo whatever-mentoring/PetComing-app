@@ -1,6 +1,7 @@
 package community.whatever.petcoming.feed.service;
 
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
+import community.whatever.petcoming.feed.domain.LostPetFeedEditor;
 import community.whatever.petcoming.feed.domain.LostPetFeedFinder;
 import community.whatever.petcoming.feed.domain.LostPetFeedFullDto;
 import community.whatever.petcoming.feed.domain.LostPetFeedInfoDto;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class LostPetFeedService {
 
     private final LostPetFeedFinder lostPetFeedFinder;
+    private final LostPetFeedEditor lostPetFeedEditor;
 
     @Transactional(readOnly = true)
     public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Integer size, FeedsSortOption sort) {
@@ -34,8 +36,14 @@ public class LostPetFeedService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public LostPetFeedFullResponse getLostPetFeedFull(Long feedId) {
         LostPetFeedFullDto fullDto = lostPetFeedFinder.getLostPetFeedFull(feedId);
         return LostPetFeedFullResponse.of(fullDto);
+    }
+
+    @Transactional
+    public void increaseViewCount(Long feedId) {
+        lostPetFeedEditor.increaseViewCount(feedId);
     }
 }

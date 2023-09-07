@@ -42,6 +42,7 @@ public class LostPetFeedRestController {
 
     @GetMapping("/{feedId}")
     public ResponseEntity<LostPetFeedFullResponse> getLostPetFeedFull(@PathVariable Long feedId) {
+        lostPetFeedService.increaseViewCount(feedId);
         return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedFull(feedId));
     }
 }

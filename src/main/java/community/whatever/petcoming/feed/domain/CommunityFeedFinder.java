@@ -34,7 +34,7 @@ public class CommunityFeedFinder {
                     .feedId(feed.getId())
                     .title(feed.getTitle())
                     .authorName(authorNickname)
-                    .viewCount(100L)
+                    .viewCount(feed.getViewCount())
                     .likeCount(100L)
                     .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
                     .build();
@@ -54,7 +54,7 @@ public class CommunityFeedFinder {
                 .feedId(feedId)
                 .title(feed.getTitle())
                 .authorName(authorNickname)
-                .viewCount(100L)
+                .viewCount(feed.getViewCount())
                 .likeCount(100L)
                 .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
                 .content(content)

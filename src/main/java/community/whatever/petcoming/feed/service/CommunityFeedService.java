@@ -1,5 +1,6 @@
 package community.whatever.petcoming.feed.service;
 
+import community.whatever.petcoming.feed.domain.CommunityFeedEditor;
 import community.whatever.petcoming.feed.domain.CommunityFeedFinder;
 import community.whatever.petcoming.feed.domain.CommunityFeedFullDto;
 import community.whatever.petcoming.feed.domain.CommunityFeedInfoDto;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class CommunityFeedService {
 
     private final CommunityFeedFinder communityFeedFinder;
+    private final CommunityFeedEditor communityFeedEditor;
 
     @Transactional(readOnly = true)
     public List<CommunityFeedInfoResponse> getCommunityFeedInfoList(Integer size, FeedsSortOption sort) {
@@ -34,8 +36,14 @@ public class CommunityFeedService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public CommunityFeedFullResponse getCommunityFeedFull(Long feedId) {
         CommunityFeedFullDto fullDto = communityFeedFinder.getCommunityFeedFull(feedId);
         return CommunityFeedFullResponse.of(fullDto);
+    }
+
+    @Transactional
+    public void increaseViewCount(Long feedId) {
+        communityFeedEditor.increaseViewCount(feedId);
     }
 }

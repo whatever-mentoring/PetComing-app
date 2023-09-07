@@ -40,7 +40,7 @@ public class LostPetFeedFinder {
                     .lostArea(feed.getLostArea())
                     // todo 이거 왜 없니 (3개니까 Table 하나 더 만들어야겠다)
                     .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
-                    .viewCount(100L)
+                    .viewCount(feed.getViewCount())
                     .likeCount(100L)
                     .build();
             dtoList.add(dto);
@@ -63,7 +63,7 @@ public class LostPetFeedFinder {
                 .animalGender(feed.getAnimalGender())
                 .breed(feed.getBreed())
                 .lostArea(feed.getLostArea())
-                .viewCount(100L)
+                .viewCount(feed.getViewCount())
                 .likeCount(100L)
                 .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
                 .details(details)

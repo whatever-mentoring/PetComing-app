@@ -42,6 +42,7 @@ public class CommunityFeedRestController {
 
     @GetMapping("/{feedId}")
     public ResponseEntity<CommunityFeedFullResponse> getCommunityFeedFull(@PathVariable Long feedId) {
+        communityFeedService.increaseViewCount(feedId);
         return ResponseEntity.ok().body(communityFeedService.getCommunityFeedFull(feedId));
     }
 }
