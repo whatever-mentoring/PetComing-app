@@ -5,6 +5,7 @@ import community.whatever.petcoming.member.domain.MemberFinder;
 import community.whatever.petcoming.member.dto.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -12,8 +13,15 @@ public class MemberService {
 
     private final MemberFinder memberFinder;
 
-    public MemberResponse findByProviderIdAndSubject(String providerId, String subject) {
-        Member member = memberFinder.findByProviderIdAndSubject(providerId, subject);
+    @Transactional(readOnly = true)
+    public MemberResponse getMemberResponseByMemberId(Long memberId) {
+        Member member = memberFinder.findById(memberId);
         return new MemberResponse(member.getNickname(), member.getProfileImageUrl());
+    }
+
+    @Transactional(readOnly = true)
+    public Long findIdByProviderIdAndSubject(String providerId, String subject) {
+        Member member = memberFinder.findByProviderIdAndSubject(providerId, subject);
+        return member.getId();
     }
 }

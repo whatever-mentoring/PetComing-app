@@ -6,6 +6,7 @@ import community.whatever.petcoming.feed.domain.FeedsSortOption;
 import community.whatever.petcoming.feed.dto.LostPetFeedFullResponse;
 import community.whatever.petcoming.feed.dto.LostPetFeedInfoResponse;
 import community.whatever.petcoming.feed.service.LostPetFeedService;
+import community.whatever.petcoming.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -40,6 +41,9 @@ class LostPetFeedRestControllerTest {
 
     @MockBean
     private LostPetFeedService lostPetFeedService;
+
+    @MockBean
+    private MemberService memberService;
 
     private final String LOST_PET_FEED_URL = "/api/v1/feed/lost-pet/";
     private final String DOCUMENT_IDENTIFIER_PREFIX = "LostPetFeed/";

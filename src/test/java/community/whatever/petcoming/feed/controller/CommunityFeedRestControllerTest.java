@@ -4,6 +4,7 @@ import community.whatever.petcoming.feed.domain.FeedsSortOption;
 import community.whatever.petcoming.feed.dto.CommunityFeedFullResponse;
 import community.whatever.petcoming.feed.dto.CommunityFeedInfoResponse;
 import community.whatever.petcoming.feed.service.CommunityFeedService;
+import community.whatever.petcoming.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -38,6 +39,9 @@ class CommunityFeedRestControllerTest {
 
     @MockBean
     private CommunityFeedService communityFeedService;
+
+    @MockBean
+    private MemberService memberService;
 
     private final String COMMUNITY_FEED_URL = "/api/v1/feed/community/";
     private final String DOCUMENT_IDENTIFIER_PREFIX = "CommunityFeed/";
