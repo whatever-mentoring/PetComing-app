@@ -1,7 +1,7 @@
 package community.whatever.petcoming.feed.domain;
 
 import community.whatever.petcoming.member.domain.Member;
-import community.whatever.petcoming.member.domain.MemberRepository;
+import community.whatever.petcoming.member.domain.MemberFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -13,8 +13,8 @@ import java.util.List;
 @Component
 public class CommunityFeedFinder {
 
-    private final MemberRepository memberRepository;
     private final CommunityFeedRepository communityFeedRepository;
+    private final MemberFinder memberFinder;
 
     public CommunityFeed findById(Long feedId) {
         return communityFeedRepository.findById(feedId).orElseThrow();
@@ -27,7 +27,7 @@ public class CommunityFeedFinder {
 
         List<CommunityFeedInfoDto> dtoList = new ArrayList<>();
         for (CommunityFeed feed : communityFeeds) {
-            Member author = memberRepository.findById(feed.getAuthorId()).orElseThrow();
+            Member author = memberFinder.findById(feed.getAuthorId());
             String authorNickname = author.getNickname();
 
             CommunityFeedInfoDto dto = CommunityFeedInfoDto.builder()
@@ -47,7 +47,7 @@ public class CommunityFeedFinder {
     public CommunityFeedFullDto getCommunityFeedFull(Long feedId) {
         CommunityFeed feed = findById(feedId);
         String content = feed.getContent();
-        Member author = memberRepository.findById(feed.getAuthorId()).orElseThrow();
+        Member author = memberFinder.findById(feed.getAuthorId());
         String authorNickname = author.getNickname();
 
         return CommunityFeedFullDto.builder()

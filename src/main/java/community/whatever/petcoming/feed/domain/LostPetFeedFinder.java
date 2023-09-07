@@ -1,7 +1,7 @@
 package community.whatever.petcoming.feed.domain;
 
 import community.whatever.petcoming.member.domain.Member;
-import community.whatever.petcoming.member.domain.MemberRepository;
+import community.whatever.petcoming.member.domain.MemberFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -13,9 +13,8 @@ import java.util.List;
 @Component
 public class LostPetFeedFinder {
 
-    // todo MemberFinder로 변경
-    private final MemberRepository memberRepository;
     private final LostPetFeedRepository lostPetFeedRepository;
+    private final MemberFinder memberFinder;
 
     public LostPetFeed findById(Long feedId) {
         return lostPetFeedRepository.findById(feedId).orElseThrow();
@@ -27,7 +26,7 @@ public class LostPetFeedFinder {
 
         List<LostPetFeedInfoDto> dtoList = new ArrayList<>();
         for (LostPetFeed feed : lostPetFeeds) {
-            Member author = memberRepository.findById(feed.getAuthorId()).orElseThrow();
+            Member author = memberFinder.findById(feed.getAuthorId());
             String authorNickname = author.getNickname();
 
             LostPetFeedInfoDto dto = LostPetFeedInfoDto.builder()
@@ -52,7 +51,7 @@ public class LostPetFeedFinder {
     public LostPetFeedFullDto getLostPetFeedFull(Long feedId) {
         LostPetFeed feed = findById(feedId);
         String details = feed.getContent();
-        Member author = memberRepository.findById(feed.getAuthorId()).orElseThrow();
+        Member author = memberFinder.findById(feed.getAuthorId());
         String authorNickname = author.getNickname();
 
         return LostPetFeedFullDto.builder()
