@@ -1,5 +1,6 @@
 package community.whatever.petcoming.feed.controller;
 
+import community.whatever.petcoming.config.resolver.LoginMemberId;
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
 import community.whatever.petcoming.feed.dto.CommunityFeedFullResponse;
 import community.whatever.petcoming.feed.dto.CommunityFeedInfoResponse;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +28,9 @@ public class CommunityFeedRestController {
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
-        if (sort == null) {sort = FeedsSortOption.LATEST;}
+        if (sort == null) {
+            sort = FeedsSortOption.LATEST;
+        }
         return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(size, sort));
     }
 
@@ -36,7 +40,9 @@ public class CommunityFeedRestController {
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
-        if (sort == null) {sort = FeedsSortOption.LATEST;}
+        if (sort == null) {
+            sort = FeedsSortOption.LATEST;
+        }
         return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(lastFeedId, size, sort));
     }
 
@@ -44,5 +50,11 @@ public class CommunityFeedRestController {
     public ResponseEntity<CommunityFeedFullResponse> getCommunityFeedFull(@PathVariable Long feedId) {
         communityFeedService.increaseViewCount(feedId);
         return ResponseEntity.ok().body(communityFeedService.getCommunityFeedFull(feedId));
+    }
+
+    @PostMapping("/{feedId}/submit")
+    public ResponseEntity<Void> submitFeed(@LoginMemberId Long memberId) {
+        communityFeedService.submitFeed(memberId);
+        return ResponseEntity.ok().build();
     }
 }

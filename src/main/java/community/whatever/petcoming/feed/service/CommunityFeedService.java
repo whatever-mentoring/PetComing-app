@@ -46,4 +46,9 @@ public class CommunityFeedService {
     public void increaseViewCount(Long feedId) {
         communityFeedEditor.increaseViewCount(feedId);
     }
+
+    @Transactional
+    public void submitFeed(Long memberId) {
+
+    }
 }
