@@ -74,7 +74,7 @@ public class CommunityFeedService {
                 .authorId(memberId)
                 .build();
 
-        communityFeedRepository.save(feed);
+        feed = communityFeedRepository.save(feed);
 
         int count = 0;
         for (MultipartFile file : imageFiles) {
@@ -85,7 +85,7 @@ public class CommunityFeedService {
 
             UploadImage uploadImage = UploadImage.builder()
                     .feedCategory("community")
-                    .feed(feed)
+                    .feedId(feed.getId())
                     .uploadUrl(path)
                     .build();
 

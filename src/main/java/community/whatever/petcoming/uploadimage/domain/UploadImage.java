@@ -1,18 +1,14 @@
 package community.whatever.petcoming.uploadimage.domain;
 
-import community.whatever.petcoming.feed.domain.CommunityFeed;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Builder
@@ -29,9 +25,8 @@ public class UploadImage {
     @Column(name = "feed_category")
     private String feedCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "feed_id")
-    private CommunityFeed feed;
+    @Column(name = "feed_id")
+    private Long feedId;
 
     @Column(name = "upload_url")
     private String uploadUrl;
