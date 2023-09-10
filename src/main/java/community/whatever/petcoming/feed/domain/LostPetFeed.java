@@ -1,5 +1,6 @@
 package community.whatever.petcoming.feed.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,14 @@ public class LostPetFeed extends Feed {
 
     @Column(name = "contact", length = 32)
     private String contact;
+
+    @Builder
+    public LostPetFeed(String title, FeedContent content, Long authorId, AnimalType animalType, AnimalGender animalGender, String breed, String lostArea, String contact) {
+        super(title, content, authorId);
+        this.animalType = animalType;
+        this.animalGender = animalGender;
+        this.breed = breed;
+        this.lostArea = lostArea;
+        this.contact = contact;
+    }
 }

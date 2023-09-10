@@ -1,6 +1,10 @@
 package community.whatever.petcoming.feedcomment.domain;
 
 import community.whatever.petcoming.common.domain.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Builder
+@AllArgsConstructor
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "feed_comment")
 public class FeedComment extends BaseEntity {
