@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,12 @@ public class CommunityFeedFinder {
 
     public CommunityFeed findById(Long feedId) {
         return communityFeedRepository.findById(feedId).orElseThrow();
+    }
+
+    public void existsOrThrowById(Long feedId) {
+        if (!communityFeedRepository.existsById(feedId)) {
+            throw new EntityNotFoundException("CommunityFeedId="+ feedId + " not found");
+        }
     }
 
     public List<CommunityFeedInfoDto> getCommunityFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {

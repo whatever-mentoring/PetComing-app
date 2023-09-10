@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,12 @@ public class LostPetFeedFinder {
 
     public LostPetFeed findById(Long feedId) {
         return lostPetFeedRepository.findById(feedId).orElseThrow();
+    }
+
+    public void existsOrThrowById(Long feedId) {
+        if (!lostPetFeedRepository.existsById(feedId)) {
+            throw new EntityNotFoundException("LostPetFeedId=" + feedId + " not found");
+        }
     }
 
     public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
