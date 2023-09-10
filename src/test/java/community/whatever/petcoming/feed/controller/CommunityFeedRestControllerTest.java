@@ -126,6 +126,8 @@ class CommunityFeedRestControllerTest {
 
         //given
         Long targetFeedId = 10L;
+        List<String> imageUrls = new ArrayList<>();
+        imageUrls.add("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp");
 
         CommunityFeedFullResponse fullResponse = CommunityFeedFullResponse.builder()
                 .feedId(targetFeedId)
@@ -133,7 +135,7 @@ class CommunityFeedRestControllerTest {
                 .authorName("집사1")
                 .viewCount(100L)
                 .likeCount(100L)
-                .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
+                .imageUrls(imageUrls)
                 .content("이 고양이는 매우 귀여운 고양이입니다. 보고 가세요.")
                 .createDate(LocalDateTime.now())
                 .build();

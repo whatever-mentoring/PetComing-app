@@ -2,6 +2,8 @@ package community.whatever.petcoming.feed.domain;
 
 import community.whatever.petcoming.member.domain.Member;
 import community.whatever.petcoming.member.domain.MemberFinder;
+import community.whatever.petcoming.uploadimage.domain.UploadImage;
+import community.whatever.petcoming.uploadimage.domain.UploadImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -9,12 +11,14 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
 public class CommunityFeedFinder {
 
     private final CommunityFeedRepository communityFeedRepository;
+    private final UploadImageRepository uploadImageRepository;
     private final MemberFinder memberFinder;
 
     public CommunityFeed findById(Long feedId) {
@@ -35,6 +39,7 @@ public class CommunityFeedFinder {
         List<CommunityFeedInfoDto> dtoList = new ArrayList<>();
         for (CommunityFeed feed : communityFeeds) {
             Member author = memberFinder.findById(feed.getAuthorId());
+            UploadImage image = uploadImageRepository.findFirstByFeedCategoryAndFeedIdOrderByIdAsc("community", feed.getId()).orElseThrow();
             String authorNickname = author.getNickname();
 
             CommunityFeedInfoDto dto = CommunityFeedInfoDto.builder()
@@ -43,7 +48,7 @@ public class CommunityFeedFinder {
                     .authorName(authorNickname)
                     .viewCount(feed.getViewCount())
                     .likeCount(100L)
-                    .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
+                    .imageUrl(image.getUploadUrl())
                     .build();
             dtoList.add(dto);
         }
@@ -57,13 +62,18 @@ public class CommunityFeedFinder {
         Member author = memberFinder.findById(feed.getAuthorId());
         String authorNickname = author.getNickname();
 
+        List<UploadImage> images = uploadImageRepository.findByFeedCategoryAndFeedIdOrderByFeedIdAsc("community", feedId);
+        List<String> imageUrls = images.stream()
+                .map(UploadImage::getUploadUrl)
+                .collect(Collectors.toList());
+
         return CommunityFeedFullDto.builder()
                 .feedId(feedId)
                 .title(feed.getTitle())
                 .authorName(authorNickname)
                 .viewCount(feed.getViewCount())
                 .likeCount(100L)
-                .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
+                .imageUrls(imageUrls)
                 .content(content)
                 .createDate(feed.getCreateDate())
                 .build();

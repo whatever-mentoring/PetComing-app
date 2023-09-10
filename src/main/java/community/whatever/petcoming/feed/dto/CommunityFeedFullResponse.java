@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -17,7 +18,7 @@ public class CommunityFeedFullResponse {
     private final Long viewCount;
     private final Long likeCount;
 
-    private final String imageUrl;
+    private final List<String> imageUrls;
     private final String content;
 
     private final LocalDateTime createDate;
@@ -29,7 +30,7 @@ public class CommunityFeedFullResponse {
                 .authorName(fullDto.getAuthorName())
                 .viewCount(fullDto.getViewCount())
                 .likeCount(fullDto.getLikeCount())
-                .imageUrl(fullDto.getImageUrl())
+                .imageUrls(fullDto.getImageUrls())
                 .content(fullDto.getContent())
                 .createDate(fullDto.getCreateDate())
                 .build();
