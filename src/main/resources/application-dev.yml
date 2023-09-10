@@ -27,6 +27,19 @@ spring:
           kakao:
             issuer-uri: https://kauth.kakao.com
 
+cloud:
+  aws:
+    s3:
+      bucket: secret
+    credentials:
+      access-key: secret
+      secret-key: secret
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
 #logging
 logging:
   level:
