@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CommunityFeedFullRequest {
+public class CommunityFeedSubmitRequest {
 
     private final String title;
     private final String content;

@@ -9,7 +9,7 @@ import community.whatever.petcoming.feed.domain.CommunityFeedInfoDto;
 import community.whatever.petcoming.feed.domain.CommunityFeedRepository;
 import community.whatever.petcoming.feed.domain.FeedContent;
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
-import community.whatever.petcoming.feed.dto.CommunityFeedFullRequest;
+import community.whatever.petcoming.feed.dto.CommunityFeedSubmitRequest;
 import community.whatever.petcoming.feed.dto.CommunityFeedFullResponse;
 import community.whatever.petcoming.feed.dto.CommunityFeedInfoResponse;
 import community.whatever.petcoming.uploadimage.domain.UploadImage;
@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class CommunityFeedService {
+
+    private final int MAX_FEED_IMAGE_COUNT = 3;
 
     private final CommunityFeedRepository communityFeedRepository;
     private final UploadImageRepository uploadImageRepository;
@@ -62,7 +64,7 @@ public class CommunityFeedService {
     }
 
     @Transactional
-    public void submitFeed(Long memberId, CommunityFeedFullRequest dto) throws IOException {
+    public void submitFeed(Long memberId, CommunityFeedSubmitRequest dto) throws IOException {
         FeedContent feedContent = new FeedContent(null, dto.getContent()); // 알아서 저장됨
         List<MultipartFile> imageFiles = dto.getImageFiles();
 
@@ -74,7 +76,11 @@ public class CommunityFeedService {
 
         communityFeedRepository.save(feed);
 
+        int count = 0;
         for (MultipartFile file : imageFiles) {
+            count++;
+            if (count > MAX_FEED_IMAGE_COUNT) break;
+
             String path = s3Uploader.upload(file, "image");
 
             UploadImage uploadImage = UploadImage.builder()

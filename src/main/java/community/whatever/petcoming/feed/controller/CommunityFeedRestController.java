@@ -2,7 +2,7 @@ package community.whatever.petcoming.feed.controller;
 
 import community.whatever.petcoming.config.resolver.LoginMemberId;
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
-import community.whatever.petcoming.feed.dto.CommunityFeedFullRequest;
+import community.whatever.petcoming.feed.dto.CommunityFeedSubmitRequest;
 import community.whatever.petcoming.feed.dto.CommunityFeedFullResponse;
 import community.whatever.petcoming.feed.dto.CommunityFeedInfoResponse;
 import community.whatever.petcoming.feed.service.CommunityFeedService;
@@ -56,7 +56,7 @@ public class CommunityFeedRestController {
     }
 
     @PostMapping("/submit")
-    public ResponseEntity<Void> submitFeed(@LoginMemberId Long memberId, @ModelAttribute CommunityFeedFullRequest dto) throws IOException {
+    public ResponseEntity<Void> submitFeed(@LoginMemberId Long memberId, @ModelAttribute CommunityFeedSubmitRequest dto) throws IOException {
         communityFeedService.submitFeed(memberId, dto);
         return ResponseEntity.ok().build();
     }
