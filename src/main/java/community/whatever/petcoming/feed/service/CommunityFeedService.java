@@ -64,9 +64,8 @@ public class CommunityFeedService {
     }
 
     @Transactional
-    public void submitFeed(Long memberId, CommunityFeedSubmitRequest dto) throws IOException {
+    public void submitFeed(Long memberId, CommunityFeedSubmitRequest dto, List<MultipartFile> imageFiles) throws IOException {
         FeedContent feedContent = new FeedContent(null, dto.getContent()); // 알아서 저장됨
-        List<MultipartFile> imageFiles = dto.getImageFiles();
 
         CommunityFeed feed = CommunityFeed.builder()
                 .title(dto.getTitle())

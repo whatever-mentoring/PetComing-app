@@ -41,3 +41,20 @@ include::{snippets}/CommunityFeed/전체피드조회/httpie-request.adoc[]
 
 ===== Response
 include::{snippets}/CommunityFeed/전체피드조회/http-response.adoc[]
+
+=== 3. 피드 작성
+
+include::{snippets}/CommunityFeed/submit-feed/request-parameters.adoc[]
+
+==== 3.1 피드 작성 요청
+
+===== Request
+
+_csrf는 무시하셔도 됩니다.
+
+include::{snippets}/CommunityFeed/submit-feed/curl-request.adoc[]
+include::{snippets}/CommunityFeed/submit-feed/httpie-request.adoc[]
+include::{snippets}/CommunityFeed/submit-feed/http-request.adoc[]
+
+===== Response
+include::{snippets}/CommunityFeed/submit-feed/http-response.adoc[]

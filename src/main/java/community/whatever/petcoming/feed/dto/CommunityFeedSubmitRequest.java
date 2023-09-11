@@ -2,18 +2,15 @@ package community.whatever.petcoming.feed.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class CommunityFeedSubmitRequest {
 
-    private final String title;
-    private final String content;
-
-    private final List<MultipartFile> imageFiles;
+    private String title;
+    private String content;
 }
