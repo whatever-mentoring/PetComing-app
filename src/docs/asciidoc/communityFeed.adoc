@@ -30,11 +30,11 @@ include::{snippets}/CommunityFeed/목록_재조회/http-response.adoc[]
 ===== Request
 ===== Response
 
-=== 2. 피드 조회
+=== 2. 피드 상세 조회
 
 include::{snippets}/CommunityFeed/전체피드조회/path-parameters.adoc[]
 
-==== 2.1 피드 조회
+==== 2.1 피드 상세 조회
 
 ===== Request
 include::{snippets}/CommunityFeed/전체피드조회/httpie-request.adoc[]
@@ -44,13 +44,11 @@ include::{snippets}/CommunityFeed/전체피드조회/http-response.adoc[]
 
 === 3. 피드 작성
 
-include::{snippets}/CommunityFeed/submit-feed/request-parameters.adoc[]
-
 ==== 3.1 피드 작성 요청
 
 ===== Request
 
-_csrf는 무시하셔도 됩니다.
+※ "_csrf"는 무시해 주세요!
 
 include::{snippets}/CommunityFeed/submit-feed/curl-request.adoc[]
 include::{snippets}/CommunityFeed/submit-feed/httpie-request.adoc[]
