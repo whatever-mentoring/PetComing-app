@@ -2,6 +2,8 @@ package community.whatever.petcoming.feed.domain;
 
 import community.whatever.petcoming.member.domain.Member;
 import community.whatever.petcoming.member.domain.MemberFinder;
+import community.whatever.petcoming.uploadimage.domain.UploadImage;
+import community.whatever.petcoming.uploadimage.domain.UploadImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -9,12 +11,14 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
 public class LostPetFeedFinder {
 
     private final LostPetFeedRepository lostPetFeedRepository;
+    private final UploadImageRepository uploadImageRepository;
     private final MemberFinder memberFinder;
 
     public LostPetFeed findById(Long feedId) {
@@ -29,11 +33,13 @@ public class LostPetFeedFinder {
 
     public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
         Pageable pageable = sort.getPageable(size);
+
         List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findByIdLessThan(lastFeedId, pageable);
 
         List<LostPetFeedInfoDto> dtoList = new ArrayList<>();
         for (LostPetFeed feed : lostPetFeeds) {
             Member author = memberFinder.findById(feed.getAuthorId());
+            UploadImage image = uploadImageRepository.findFirstByFeedCategoryAndFeedIdOrderByIdAsc("community", feed.getId()).orElseThrow();
             String authorNickname = author.getNickname();
 
             LostPetFeedInfoDto dto = LostPetFeedInfoDto.builder()
@@ -44,8 +50,7 @@ public class LostPetFeedFinder {
                     .animalGender(feed.getAnimalGender())
                     .breed(feed.getBreed())
                     .lostArea(feed.getLostArea())
-                    // todo 이거 왜 없니 (3개니까 Table 하나 더 만들어야겠다)
-                    .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
+                    .imageUrl(image.getUploadUrl())
                     .viewCount(feed.getViewCount())
                     .likeCount(100L)
                     .build();
@@ -61,6 +66,11 @@ public class LostPetFeedFinder {
         Member author = memberFinder.findById(feed.getAuthorId());
         String authorNickname = author.getNickname();
 
+        List<UploadImage> images = uploadImageRepository.findByFeedCategoryAndFeedIdOrderByFeedIdAsc("lost", feedId);
+        List<String> imageUrls = images.stream()
+                .map(UploadImage::getUploadUrl)
+                .collect(Collectors.toList());
+
         return LostPetFeedFullDto.builder()
                 .feedId(feedId)
                 .specialNote(feed.getTitle())
@@ -69,9 +79,10 @@ public class LostPetFeedFinder {
                 .animalGender(feed.getAnimalGender())
                 .breed(feed.getBreed())
                 .lostArea(feed.getLostArea())
+                .contact(feed.getContact())
                 .viewCount(feed.getViewCount())
                 .likeCount(100L)
-                .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
+                .imageUrls(imageUrls)
                 .details(details)
                 .createDate(feed.getCreateDate())
                 .build();
