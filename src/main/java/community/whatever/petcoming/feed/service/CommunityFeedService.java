@@ -91,4 +91,14 @@ public class CommunityFeedService {
             uploadImageRepository.save(uploadImage);
         }
     }
+
+    @Transactional
+    public Long likeFeed(Long memberId, Long feedId) {
+        return communityFeedEditor.likeFeed(memberId, feedId);
+    }
+
+    @Transactional
+    public Long unlikeFeed(Long memberId, Long feedId) {
+        return communityFeedEditor.unlikeFeed(memberId, feedId);
+    }
 }

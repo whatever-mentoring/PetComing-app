@@ -221,4 +221,46 @@ class CommunityFeedRestControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+    @DisplayName("피드 좋아요")
+    public void likeFeed() throws Exception {
+        // Given
+        BDDMockito.when(communityFeedService.likeFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(1L);
+        BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
+
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post(COMMUNITY_FEED_URL + "/1/like")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "like-feed",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        )
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("1"));
+    }
+
+    @Test
+    @DisplayName("피드 싫어요")
+    public void unlikeFeed() throws Exception {
+        // Given
+        BDDMockito.when(communityFeedService.unlikeFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(0L);
+        BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
+
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post(COMMUNITY_FEED_URL + "/1/unlike")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "unlike-feed",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        )
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("0"));
+    }
 }
