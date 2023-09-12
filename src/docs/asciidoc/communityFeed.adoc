@@ -56,3 +56,30 @@ include::{snippets}/CommunityFeed/submit-feed/http-request.adoc[]
 
 ===== Response
 include::{snippets}/CommunityFeed/submit-feed/http-response.adoc[]
+
+=== 4. 피드 좋아요
+
+==== 4.1 피드 좋아요
+
+※ "_csrf"는 무시해 주세요!
+
+===== Request
+include::{snippets}/CommunityFeed/like-feed/httpie-request.adoc[]
+
+===== Response
+좋아요 후 좋아요 개수를 반환합니다.
+include::{snippets}/CommunityFeed/like-feed/http-response.adoc[]
+include::{snippets}/CommunityFeed/like-feed/response-body.adoc[]
+
+==== 4.2 피드 좋아요 취소
+
+※ "_csrf"는 무시해 주세요!
+
+===== Request
+include::{snippets}/CommunityFeed/unlike-feed/httpie-request.adoc[]
+include::{snippets}/CommunityFeed/unlike-feed/http-request.adoc[]
+
+===== Response
+좋아요 후 좋아요 개수를 반환합니다.
+include::{snippets}/CommunityFeed/unlike-feed/http-response.adoc[]
+include::{snippets}/CommunityFeed/unlike-feed/response-body.adoc[]
