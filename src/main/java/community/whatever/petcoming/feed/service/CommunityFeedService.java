@@ -38,14 +38,14 @@ public class CommunityFeedService {
     private final CommunityFeedEditor communityFeedEditor;
 
     @Transactional(readOnly = true)
-    public List<CommunityFeedInfoResponse> getCommunityFeedInfoList(Integer size, FeedsSortOption sort) {
+    public List<CommunityFeedInfoResponse> getCommunityFeedInfoList(Long memberId, Integer size, FeedsSortOption sort) {
         // 내부 코드 호출
-        return getCommunityFeedInfoList(Long.MAX_VALUE, size, sort);
+        return getCommunityFeedInfoList(memberId, Long.MAX_VALUE, size, sort);
     }
 
     @Transactional(readOnly = true)
-    public List<CommunityFeedInfoResponse> getCommunityFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
-        List<CommunityFeedInfoDto> dtoList = communityFeedFinder.getCommunityFeedInfoList(lastFeedId, size, sort);
+    public List<CommunityFeedInfoResponse> getCommunityFeedInfoList(Long memberId, Long lastFeedId, Integer size, FeedsSortOption sort) {
+        List<CommunityFeedInfoDto> dtoList = communityFeedFinder.getCommunityFeedInfoList(memberId, lastFeedId, size, sort);
 
         return dtoList.stream()
                 .map(CommunityFeedInfoResponse::of)
@@ -53,8 +53,8 @@ public class CommunityFeedService {
     }
 
     @Transactional(readOnly = true)
-    public CommunityFeedFullResponse getCommunityFeedFull(Long feedId) {
-        CommunityFeedFullDto fullDto = communityFeedFinder.getCommunityFeedFull(feedId);
+    public CommunityFeedFullResponse getCommunityFeedFull(Long loginMemberId, Long feedId) {
+        CommunityFeedFullDto fullDto = communityFeedFinder.getCommunityFeedFull(loginMemberId, feedId);
         return CommunityFeedFullResponse.of(fullDto);
     }
 

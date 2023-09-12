@@ -18,6 +18,8 @@ public class CommunityFeedFullResponse {
     private final Long viewCount;
     private final Long likeCount;
 
+    private final Boolean liked;
+
     private final List<String> imageUrls;
     private final String content;
 
@@ -30,6 +32,7 @@ public class CommunityFeedFullResponse {
                 .authorName(fullDto.getAuthorName())
                 .viewCount(fullDto.getViewCount())
                 .likeCount(fullDto.getLikeCount())
+                .liked(fullDto.getLiked())
                 .imageUrls(fullDto.getImageUrls())
                 .content(fullDto.getContent())
                 .createDate(fullDto.getCreateDate())

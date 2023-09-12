@@ -17,6 +17,8 @@ public class CommunityFeedInfoResponse {
     private final Long viewCount;
     private final Long likeCount;
 
+    private final Boolean liked;
+
     public static CommunityFeedInfoResponse of(CommunityFeedInfoDto dto) {
         return CommunityFeedInfoResponse.builder()
                 .feedId(dto.getFeedId())
@@ -25,6 +27,7 @@ public class CommunityFeedInfoResponse {
                 .imageUrl(dto.getImageUrl())
                 .viewCount(dto.getViewCount())
                 .likeCount(dto.getLikeCount())
+                .liked(dto.getLiked())
                 .build();
     }
 }

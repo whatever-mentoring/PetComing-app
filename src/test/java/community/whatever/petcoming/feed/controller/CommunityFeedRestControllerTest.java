@@ -85,10 +85,12 @@ class CommunityFeedRestControllerTest {
                 .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
                 .viewCount(100L)
                 .likeCount(100L)
+                .liked(false)
                 .build();
         list.add(response);
 
         BDDMockito.given(communityFeedService.getCommunityFeedInfoList(
+                        ArgumentMatchers.any(Long.class),
                         ArgumentMatchers.any(Integer.class),
                         ArgumentMatchers.any(FeedsSortOption.class)))
                 .willReturn(list);
@@ -121,10 +123,12 @@ class CommunityFeedRestControllerTest {
                 .imageUrl("https://i.namu.wiki/i/BMOGQ_hFSF4xHK_oOo127aa5LHsxE28Kkomve6Yt4hfKQkAPWaqEIqsaCN2rVq2QnsLz3QFihlMF9ACZfjeK0XeB7j2GUEkIz1kJkm6c_pMwN4wwGSBBugiJ0QYQm7A2IDPXlw_9y9GzOxPJHsSx4g.webp")
                 .viewCount(100L)
                 .likeCount(100L)
+                .liked(true)
                 .build();
         list.add(response);
 
         BDDMockito.given(communityFeedService.getCommunityFeedInfoList(
+                        ArgumentMatchers.any(Long.class),
                         ArgumentMatchers.any(Long.class),
                         ArgumentMatchers.any(Integer.class),
                         ArgumentMatchers.any(FeedsSortOption.class)))
@@ -161,12 +165,13 @@ class CommunityFeedRestControllerTest {
                 .authorName("집사1")
                 .viewCount(100L)
                 .likeCount(100L)
+                .liked(true)
                 .imageUrls(imageUrls)
                 .content("이 고양이는 매우 귀여운 고양이입니다. 보고 가세요.")
                 .createDate(LocalDateTime.now())
                 .build();
 
-        BDDMockito.given(communityFeedService.getCommunityFeedFull(ArgumentMatchers.any()))
+        BDDMockito.given(communityFeedService.getCommunityFeedFull(ArgumentMatchers.anyLong(), ArgumentMatchers.any()))
                 .willReturn(fullResponse);
 
         //when, then

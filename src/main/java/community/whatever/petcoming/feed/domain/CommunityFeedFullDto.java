@@ -17,6 +17,8 @@ public class CommunityFeedFullDto {
     private final Long viewCount;
     private final Long likeCount;
 
+    private final Boolean liked;
+
     private final List<String> imageUrls;
     private final String content;
 

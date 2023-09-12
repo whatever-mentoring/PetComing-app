@@ -30,11 +30,11 @@ include::{snippets}/LostPetFeed/목록_재조회/http-response.adoc[]
 ===== Request
 ===== Response
 
-=== 2. 피드 조회
+=== 2. 피드 상세 조회
 
 include::{snippets}/LostPetFeed/전체피드조회/path-parameters.adoc[]
 
-==== 2.1 피드 조회
+==== 2.1 피드 상세 조회
 
 ===== Request
 include::{snippets}/LostPetFeed/전체피드조회/httpie-request.adoc[]

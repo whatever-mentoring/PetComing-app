@@ -12,17 +12,17 @@
 
 [source,http]
 ----
-GET http://3.34.210.88:8080/oauth2/authorization/kakao
+GET https://api.petcoming.xyz/oauth2/authorization/kakao
 ----
 
 ===== Response
 
 [source,http]
 ----
-HTTP/1.1 200 OK
-Content-Type: text/plain
+HTTP/1.1 302 Found
+Location: https://petcoming.xyz/
+Set-Cookie: JSESSIONID=<session_id>; Domain=.petcoming.xyz; Path=/; HttpOnly; Max-Age=86400
 
-Login successful
 ----
 
 ==== 1.2 로그아웃
@@ -33,7 +33,7 @@ Login successful
 
 [source,http]
 ----
-GET http://3.34.210.88:8080/logout
+GET https://api.petcoming.xyz/logout
 ----
 
 ===== Response
@@ -61,7 +61,7 @@ include::{snippets}/Member/인증체크/http-response.adoc[]
 ===== Request
 [source,http]
 ----
-GET http://3.34.210.88:8080/api/v1/member/me
+GET https://api.petcoming.xyz/api/v1/member/me
 ----
 
 ===== Response
