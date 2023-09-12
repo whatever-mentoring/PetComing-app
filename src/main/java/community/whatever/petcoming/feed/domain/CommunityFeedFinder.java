@@ -19,6 +19,7 @@ public class CommunityFeedFinder {
 
     private final CommunityFeedRepository communityFeedRepository;
     private final UploadImageRepository uploadImageRepository;
+    private final FeedLikeFinder feedLikeFinder;
     private final MemberFinder memberFinder;
 
     public CommunityFeed findById(Long feedId) {
@@ -39,15 +40,18 @@ public class CommunityFeedFinder {
         List<CommunityFeedInfoDto> dtoList = new ArrayList<>();
         for (CommunityFeed feed : communityFeeds) {
             Member author = memberFinder.findById(feed.getAuthorId());
-            UploadImage image = uploadImageRepository.findFirstByFeedCategoryAndFeedIdOrderByIdAsc("community", feed.getId()).orElseThrow();
             String authorNickname = author.getNickname();
+
+            Long countFeedLiker = feedLikeFinder.countFeedLikeByFeedCategoryAndFeedId("community", feed.getId());
+
+            UploadImage image = uploadImageRepository.findFirstByFeedCategoryAndFeedIdOrderByIdAsc("community", feed.getId()).orElseThrow();
 
             CommunityFeedInfoDto dto = CommunityFeedInfoDto.builder()
                     .feedId(feed.getId())
                     .title(feed.getTitle())
                     .authorName(authorNickname)
                     .viewCount(feed.getViewCount())
-                    .likeCount(100L)
+                    .likeCount(countFeedLiker)
                     .imageUrl(image.getUploadUrl())
                     .build();
             dtoList.add(dto);
@@ -59,8 +63,11 @@ public class CommunityFeedFinder {
     public CommunityFeedFullDto getCommunityFeedFull(Long feedId) {
         CommunityFeed feed = findById(feedId);
         String content = feed.getContent();
+
         Member author = memberFinder.findById(feed.getAuthorId());
         String authorNickname = author.getNickname();
+
+        Long countFeedLiker = feedLikeFinder.countFeedLikeByFeedCategoryAndFeedId("community", feed.getId());
 
         List<UploadImage> images = uploadImageRepository.findByFeedCategoryAndFeedIdOrderByFeedIdAsc("community", feedId);
         List<String> imageUrls = images.stream()
@@ -72,7 +79,7 @@ public class CommunityFeedFinder {
                 .title(feed.getTitle())
                 .authorName(authorNickname)
                 .viewCount(feed.getViewCount())
-                .likeCount(100L)
+                .likeCount(countFeedLiker)
                 .imageUrls(imageUrls)
                 .content(content)
                 .createDate(feed.getCreateDate())

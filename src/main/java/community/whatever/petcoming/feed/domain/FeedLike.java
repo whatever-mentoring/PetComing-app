@@ -1,6 +1,7 @@
-package community.whatever.petcoming.feedlike.domain;
+package community.whatever.petcoming.feed.domain;
 
 import community.whatever.petcoming.common.domain.BaseEntity;
+import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,17 +11,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+@Getter
 @Entity
 @Table(
         name = "feed_like",
         uniqueConstraints = @UniqueConstraint(
-                columnNames = {"feed_id", "liker_id"}
+                columnNames = {"feed_category", "feed_id", "liker_id"}
         ))
 public class FeedLike extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "feed_category")
+    private String feedCategory;
 
     @Column(name = "feed_id")
     private Long feedId; // Feed fk
