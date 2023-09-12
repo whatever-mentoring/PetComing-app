@@ -70,4 +70,18 @@ public class CommunityFeedRestController {
         communityFeedService.submitFeed(memberId, dto, imageFiles);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("{feedId}/like")
+    public ResponseEntity<Long> likeFeed(
+            @LoginMemberId Long memberId,
+            @PathVariable Long feedId) {
+        return ResponseEntity.ok().body(communityFeedService.likeFeed(memberId, feedId));
+    }
+
+    @PostMapping("{feedId}/unlike")
+    public ResponseEntity<Long> unlikeFeed(
+            @LoginMemberId Long memberId,
+            @PathVariable Long feedId) {
+        return ResponseEntity.ok().body(communityFeedService.unlikeFeed(memberId, feedId));
+    }
 }

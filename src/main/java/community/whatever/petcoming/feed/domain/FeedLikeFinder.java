@@ -19,4 +19,17 @@ public class FeedLikeFinder {
         }
         return feedLikeRepository.existsByFeedCategoryAndFeedIdAndLikerId(feedCategory, feedId, likerId);
     }
+
+    public FeedLike save(String feedCategory, Long feedId, Long likerId) {
+        FeedLike feedLike = FeedLike.builder()
+                .feedCategory(feedCategory)
+                .feedId(feedId)
+                .likerId(likerId)
+                .build();
+        return feedLikeRepository.save(feedLike);
+    }
+
+    public void delete(String feedCategory, Long feedId, Long memberId) {
+        feedLikeRepository.deleteByFeedCategoryAndFeedIdAndLikerId(feedCategory, feedId, memberId);
+    }
 }
