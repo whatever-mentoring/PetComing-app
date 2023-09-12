@@ -12,4 +12,11 @@ public class FeedLikeFinder {
     public Long countFeedLikeByFeedCategoryAndFeedId(String feedCategory, Long feedId) {
         return feedLikeRepository.countFeedLikeByFeedCategoryAndFeedId(feedCategory, feedId);
     }
+
+    public boolean existsByFeedCategoryAndFeedIdAndLikerId(String feedCategory, Long feedId, Long likerId) {
+        if (likerId == null) {
+            return false;
+        }
+        return feedLikeRepository.existsByFeedCategoryAndFeedIdAndLikerId(feedCategory, feedId, likerId);
+    }
 }

@@ -7,6 +7,7 @@ import community.whatever.petcoming.feed.dto.CommunityFeedFullResponse;
 import community.whatever.petcoming.feed.dto.CommunityFeedInfoResponse;
 import community.whatever.petcoming.feed.service.CommunityFeedService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/feed/community")
@@ -29,17 +31,19 @@ public class CommunityFeedRestController {
 
     @GetMapping(params = {"size"})
     public ResponseEntity<List<CommunityFeedInfoResponse>> getCommunityFeedInfoList(
+            @LoginMemberId Long memberId,
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
         if (sort == null) {
             sort = FeedsSortOption.LATEST;
         }
-        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(size, sort));
+        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(memberId, size, sort));
     }
 
     @GetMapping(params = {"last-feed", "size"})
     public ResponseEntity<List<CommunityFeedInfoResponse>> getCommunityFeedInfoList(
+            @LoginMemberId Long memberId,
             @RequestParam("last-feed") Long lastFeedId,
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
@@ -47,13 +51,15 @@ public class CommunityFeedRestController {
         if (sort == null) {
             sort = FeedsSortOption.LATEST;
         }
-        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(lastFeedId, size, sort));
+        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedInfoList(memberId, lastFeedId, size, sort));
     }
 
     @GetMapping("/{feedId}")
-    public ResponseEntity<CommunityFeedFullResponse> getCommunityFeedFull(@PathVariable Long feedId) {
+    public ResponseEntity<CommunityFeedFullResponse> getCommunityFeedFull(
+            @LoginMemberId Long memberId,
+            @PathVariable Long feedId) {
         communityFeedService.increaseViewCount(feedId);
-        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedFull(feedId));
+        return ResponseEntity.ok().body(communityFeedService.getCommunityFeedFull(memberId, feedId));
     }
 
     @PostMapping("/submit")
