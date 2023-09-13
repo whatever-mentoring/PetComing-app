@@ -9,6 +9,7 @@ import community.whatever.petcoming.feed.dto.LostPetFeedInfoResponse;
 import community.whatever.petcoming.feed.dto.LostPetFeedSubmitRequest;
 import community.whatever.petcoming.feed.service.LostPetFeedService;
 import community.whatever.petcoming.member.service.MemberService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -23,6 +24,12 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.request.RequestDocumentation;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,9 +37,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WithMockUser
 @MockBean(JpaMetamodelMappingContext.class)
@@ -51,6 +62,17 @@ class LostPetFeedRestControllerTest {
 
     private final String LOST_PET_FEED_URL = "/api/v1/feed/lost-pet/";
     private final String DOCUMENT_IDENTIFIER_PREFIX = "LostPetFeed/";
+
+    @BeforeEach
+    public void setUp() {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("sub", "1234567890");
+        OidcIdToken idToken = new OidcIdToken("asdf", Instant.now(), Instant.now().plusSeconds(60), claims);
+        OAuth2UserAuthority authority = new OAuth2UserAuthority("ROLE_USER", claims);
+        OidcUser oidcUser = new DefaultOidcUser(Collections.singletonList(authority), idToken);
+
+        SecurityContextHolder.getContext().setAuthentication(new OAuth2AuthenticationToken(oidcUser, Collections.emptyList(), "oidc"));
+    }
 
     @Test
     @DisplayName("찾아주세요 피드 목록 조회. 첫 조회")
@@ -217,5 +239,47 @@ class LostPetFeedRestControllerTest {
                         )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("피드 좋아요")
+    public void likeFeed() throws Exception {
+        // Given
+        BDDMockito.when(lostPetFeedService.likeFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(1L);
+        BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
+
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post(LOST_PET_FEED_URL + "/1/like")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "like-feed",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        )
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("1"));
+    }
+
+    @Test
+    @DisplayName("피드 좋아요 취소")
+    public void unlikeFeed() throws Exception {
+        // Given
+        BDDMockito.when(lostPetFeedService.unlikeFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(0L);
+        BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
+
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post(LOST_PET_FEED_URL + "/1/unlike")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "unlike-feed",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        )
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("0"));
     }
 }

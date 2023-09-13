@@ -96,4 +96,14 @@ public class LostPetFeedService {
             uploadImageRepository.save(uploadImage);
         }
     }
+
+    @Transactional
+    public Long likeFeed(Long memberId, Long feedId) {
+        return lostPetFeedEditor.likeFeed(memberId, feedId);
+    }
+
+    @Transactional
+    public Long unlikeFeed(Long memberId, Long feedId) {
+        return lostPetFeedEditor.unlikeFeed(memberId, feedId);
+    }
 }

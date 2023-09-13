@@ -64,4 +64,18 @@ public class LostPetFeedRestController {
         lostPetFeedService.submitFeed(memberId, dto, imageFiles);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("{feedId}/like")
+    public ResponseEntity<Long> likeFeed(
+            @LoginMemberId Long memberId,
+            @PathVariable Long feedId) {
+        return ResponseEntity.ok().body(lostPetFeedService.likeFeed(memberId, feedId));
+    }
+
+    @PostMapping("{feedId}/unlike")
+    public ResponseEntity<Long> unlikeFeed(
+            @LoginMemberId Long memberId,
+            @PathVariable Long feedId) {
+        return ResponseEntity.ok().body(lostPetFeedService.unlikeFeed(memberId, feedId));
+    }
 }

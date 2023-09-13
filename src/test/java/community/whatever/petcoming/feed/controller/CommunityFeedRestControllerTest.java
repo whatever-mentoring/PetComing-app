@@ -58,6 +58,9 @@ class CommunityFeedRestControllerTest {
     @MockBean
     private MemberService memberService;
 
+    private final String COMMUNITY_FEED_URL = "/api/v1/feed/community/";
+    private final String DOCUMENT_IDENTIFIER_PREFIX = "CommunityFeed/";
+
     @BeforeEach
     public void setUp() {
         Map<String, Object> claims = new HashMap<>();
@@ -68,9 +71,6 @@ class CommunityFeedRestControllerTest {
 
         SecurityContextHolder.getContext().setAuthentication(new OAuth2AuthenticationToken(oidcUser, Collections.emptyList(), "oidc"));
     }
-
-    private final String COMMUNITY_FEED_URL = "/api/v1/feed/community/";
-    private final String DOCUMENT_IDENTIFIER_PREFIX = "CommunityFeed/";
 
     @Test
     @DisplayName("댕글냥글 피드 목록 조회. 첫 조회")
@@ -244,7 +244,7 @@ class CommunityFeedRestControllerTest {
     }
 
     @Test
-    @DisplayName("피드 싫어요")
+    @DisplayName("피드 좋아요 취소")
     public void unlikeFeed() throws Exception {
         // Given
         BDDMockito.when(communityFeedService.unlikeFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(0L);
