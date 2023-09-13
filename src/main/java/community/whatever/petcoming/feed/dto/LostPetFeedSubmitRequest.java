@@ -3,14 +3,13 @@ package community.whatever.petcoming.feed.dto;
 import community.whatever.petcoming.feed.domain.AnimalGender;
 import community.whatever.petcoming.feed.domain.AnimalType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 public class LostPetFeedSubmitRequest {
 
@@ -22,6 +21,4 @@ public class LostPetFeedSubmitRequest {
     private final String breed;
     private final String lostArea;
     private final String contact;
-
-    private final List<MultipartFile> imageFiles;
 }

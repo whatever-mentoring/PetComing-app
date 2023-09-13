@@ -64,9 +64,8 @@ public class LostPetFeedService {
     }
 
     @Transactional
-    public void submitFeed(Long memberId, LostPetFeedSubmitRequest dto) throws IOException {
+    public void submitFeed(Long memberId, LostPetFeedSubmitRequest dto, List<MultipartFile> imageFiles) throws IOException {
         FeedContent feedContent = new FeedContent(null, dto.getDetails()); // 알아서 저장됨
-        List<MultipartFile> imageFiles = dto.getImageFiles();
 
         LostPetFeed feed = LostPetFeed.builder()
                 .title(dto.getSpecialNote())

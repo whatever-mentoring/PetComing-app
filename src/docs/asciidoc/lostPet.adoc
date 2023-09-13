@@ -41,3 +41,18 @@ include::{snippets}/LostPetFeed/전체피드조회/httpie-request.adoc[]
 
 ===== Response
 include::{snippets}/LostPetFeed/전체피드조회/http-response.adoc[]
+
+=== 3. 피드 작성
+
+==== 3.1 피드 작성 요청
+
+===== Request
+
+※ "_csrf"는 무시해 주세요!
+
+include::{snippets}/LostPetFeed/submit-feed/curl-request.adoc[]
+include::{snippets}/LostPetFeed/submit-feed/httpie-request.adoc[]
+include::{snippets}/LostPetFeed/submit-feed/http-request.adoc[]
+
+===== Response
+include::{snippets}/LostPetFeed/submit-feed/http-response.adoc[]
