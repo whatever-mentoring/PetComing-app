@@ -1,5 +1,28 @@
 == 찾아주세요 피드(LostPetFeed)
 
+=== Enum Types
+
+==== AnimalGender
+
+|====
+|값 |설명
+
+|`MALE`|수컷
+|`FEMALE`|암컷
+|`UNKNOWN`|성별 모름
+|====
+
+==== AnimalType
+
+|====
+|값 |설명
+
+|`DOG`|개
+|`CAT`|고양이
+|`SMALL_ANIMAL`|소동물
+|`OTHER`|기타 동물
+|====
+
 === 1. 피드 목록 조회
 
 |====
