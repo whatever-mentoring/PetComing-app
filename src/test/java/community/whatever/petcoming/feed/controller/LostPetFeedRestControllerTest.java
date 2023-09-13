@@ -73,6 +73,7 @@ class LostPetFeedRestControllerTest {
         list.add(response);
 
         BDDMockito.given(lostPetFeedService.getLostPetFeedInfoList(
+                        ArgumentMatchers.anyLong(),
                         ArgumentMatchers.any(Integer.class),
                         ArgumentMatchers.any(FeedsSortOption.class)))
                 .willReturn(list);
@@ -84,7 +85,7 @@ class LostPetFeedRestControllerTest {
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(
-                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX+"목록_첫조회",
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "목록_첫조회",
                                 Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                                 Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
                         )
@@ -113,6 +114,7 @@ class LostPetFeedRestControllerTest {
         list.add(response);
 
         BDDMockito.given(lostPetFeedService.getLostPetFeedInfoList(
+                        ArgumentMatchers.anyLong(),
                         ArgumentMatchers.any(Long.class),
                         ArgumentMatchers.any(Integer.class),
                         ArgumentMatchers.any(FeedsSortOption.class))
@@ -158,7 +160,7 @@ class LostPetFeedRestControllerTest {
                 .createDate(LocalDateTime.now())
                 .build();
 
-        BDDMockito.given(lostPetFeedService.getLostPetFeedFull(ArgumentMatchers.any()))
+        BDDMockito.given(lostPetFeedService.getLostPetFeedFull(ArgumentMatchers.any(), ArgumentMatchers.any()))
                 .willReturn(fullResponse);
 
         //when, then

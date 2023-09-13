@@ -26,6 +26,8 @@ public class LostPetFeedFullResponse {
     private final Long viewCount;
     private final Long likeCount;
 
+    private final Boolean liked;
+
     private final List<String> imageUrls;
     private final String details;
 
@@ -43,6 +45,7 @@ public class LostPetFeedFullResponse {
                 .contact(fullDto.getContact())
                 .viewCount(fullDto.getViewCount())
                 .likeCount(fullDto.getLikeCount())
+                .liked(fullDto.getLiked())
                 .imageUrls(fullDto.getImageUrls())
                 .details(fullDto.getDetails())
                 .createDate(fullDto.getCreateDate())

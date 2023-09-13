@@ -38,14 +38,14 @@ public class LostPetFeedService {
     private final LostPetFeedEditor lostPetFeedEditor;
 
     @Transactional(readOnly = true)
-    public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Integer size, FeedsSortOption sort) {
+    public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Long memberId, Integer size, FeedsSortOption sort) {
         // 클래스 내부 코드 호출
-        return getLostPetFeedInfoList(Long.MAX_VALUE, size, sort);
+        return getLostPetFeedInfoList(memberId, Long.MAX_VALUE, size, sort);
     }
 
     @Transactional(readOnly = true)
-    public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
-        List<LostPetFeedInfoDto> dtoList = lostPetFeedFinder.getLostPetFeedInfoList(lastFeedId, size, sort);
+    public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Long memberId, Long lastFeedId, Integer size, FeedsSortOption sort) {
+        List<LostPetFeedInfoDto> dtoList = lostPetFeedFinder.getLostPetFeedInfoList(memberId, lastFeedId, size, sort);
 
         return dtoList.stream()
                 .map(LostPetFeedInfoResponse::of)
@@ -53,8 +53,8 @@ public class LostPetFeedService {
     }
 
     @Transactional(readOnly = true)
-    public LostPetFeedFullResponse getLostPetFeedFull(Long feedId) {
-        LostPetFeedFullDto fullDto = lostPetFeedFinder.getLostPetFeedFull(feedId);
+    public LostPetFeedFullResponse getLostPetFeedFull(Long loginMemberId, Long feedId) {
+        LostPetFeedFullDto fullDto = lostPetFeedFinder.getLostPetFeedFull(loginMemberId, feedId);
         return LostPetFeedFullResponse.of(fullDto);
     }
 

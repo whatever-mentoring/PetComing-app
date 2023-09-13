@@ -29,27 +29,31 @@ public class LostPetFeedRestController {
 
     @GetMapping(params = {"size"})
     public ResponseEntity<List<LostPetFeedInfoResponse>> getLostPetFeedInfoList(
+            @LoginMemberId Long memberId,
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
         if (sort == null) {sort = FeedsSortOption.LATEST;}
-        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(size, sort));
+        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(memberId, size, sort));
     }
 
     @GetMapping(params = {"last-feed", "size"})
     public ResponseEntity<List<LostPetFeedInfoResponse>> getLostPetFeedInfoList(
+            @LoginMemberId Long memberId,
             @RequestParam("last-feed") Long lastFeedId,
             @RequestParam Integer size,
             @RequestParam(required = false) FeedsSortOption sort
     ) {
         if (sort == null) {sort = FeedsSortOption.LATEST;}
-        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(lastFeedId, size, sort));
+        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(memberId, lastFeedId, size, sort));
     }
 
     @GetMapping("/{feedId}")
-    public ResponseEntity<LostPetFeedFullResponse> getLostPetFeedFull(@PathVariable Long feedId) {
+    public ResponseEntity<LostPetFeedFullResponse> getLostPetFeedFull(
+            @LoginMemberId Long memberId,
+            @PathVariable Long feedId) {
         lostPetFeedService.increaseViewCount(feedId);
-        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedFull(feedId));
+        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedFull(memberId, feedId));
     }
 
     @PostMapping("/submit")
