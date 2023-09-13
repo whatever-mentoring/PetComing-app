@@ -24,6 +24,8 @@ public class LostPetFeedInfoResponse {
     private final Long viewCount;
     private final Long likeCount;
 
+    private final Boolean liked;
+
     public static LostPetFeedInfoResponse of(LostPetFeedInfoDto dto) {
         return LostPetFeedInfoResponse.builder()
                 .feedId(dto.getFeedId())
@@ -36,6 +38,7 @@ public class LostPetFeedInfoResponse {
                 .imageUrl(dto.getImageUrl())
                 .viewCount(dto.getViewCount())
                 .likeCount(dto.getLikeCount())
+                .liked(dto.getLiked())
                 .build();
     }
 }

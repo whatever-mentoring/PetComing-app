@@ -19,5 +19,7 @@ public class LostPetFeedInfoDto {
     private final Long viewCount;
     private final Long likeCount;
 
+    private final Boolean liked;
+
     private final String imageUrl;
 }

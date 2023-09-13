@@ -1,0 +1,85 @@
+== 찾아주세요 피드(LostPetFeed)
+
+=== 1. 피드 목록 조회
+
+|====
+|속성 |설명
+
+|`(Optional) last-feed`|이전 조회한 마지막 feed ID
+|`(Required) size`|조회 목록 최대 개수
+|`(Optional) sort`|LATEST(default), POPULAR
+
+|====
+
+==== 1.1 피드 목록 첫 조회 (last-feed 없음)
+
+===== Request
+include::{snippets}/LostPetFeed/목록_첫조회/httpie-request.adoc[]
+
+===== Response
+include::{snippets}/LostPetFeed/목록_첫조회/http-response.adoc[]
+
+==== 1.2 피드 목록 재 조회 (last-feed 있음)
+===== Request
+include::{snippets}/LostPetFeed/목록_재조회/httpie-request.adoc[]
+
+===== Response
+include::{snippets}/LostPetFeed/목록_재조회/http-response.adoc[]
+
+==== 1.3 피드 목록 필터 조회
+===== Request
+===== Response
+
+=== 2. 피드 상세 조회
+
+include::{snippets}/LostPetFeed/전체피드조회/path-parameters.adoc[]
+
+==== 2.1 피드 상세 조회
+
+===== Request
+include::{snippets}/LostPetFeed/전체피드조회/httpie-request.adoc[]
+
+===== Response
+include::{snippets}/LostPetFeed/전체피드조회/http-response.adoc[]
+
+=== 3. 피드 작성
+
+==== 3.1 피드 작성 요청
+
+===== Request
+
+※ "_csrf"는 무시해 주세요!
+
+include::{snippets}/LostPetFeed/submit-feed/curl-request.adoc[]
+include::{snippets}/LostPetFeed/submit-feed/httpie-request.adoc[]
+include::{snippets}/LostPetFeed/submit-feed/http-request.adoc[]
+
+===== Response
+include::{snippets}/LostPetFeed/submit-feed/http-response.adoc[]
+
+=== 4. 피드 좋아요
+
+==== 4.1 피드 좋아요
+
+※ "_csrf"는 무시해 주세요!
+
+===== Request
+include::{snippets}/LostPetFeed/like-feed/httpie-request.adoc[]
+
+===== Response
+좋아요 후 좋아요 개수를 반환합니다.
+include::{snippets}/LostPetFeed/like-feed/http-response.adoc[]
+include::{snippets}/LostPetFeed/like-feed/response-body.adoc[]
+
+==== 4.2 피드 좋아요 취소
+
+※ "_csrf"는 무시해 주세요!
+
+===== Request
+include::{snippets}/LostPetFeed/unlike-feed/httpie-request.adoc[]
+include::{snippets}/LostPetFeed/unlike-feed/http-request.adoc[]
+
+===== Response
+좋아요 후 좋아요 개수를 반환합니다.
+include::{snippets}/LostPetFeed/unlike-feed/http-response.adoc[]
+include::{snippets}/LostPetFeed/unlike-feed/response-body.adoc[]

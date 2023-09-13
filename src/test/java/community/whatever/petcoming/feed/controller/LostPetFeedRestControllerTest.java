@@ -1,12 +1,15 @@
 package community.whatever.petcoming.feed.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import community.whatever.petcoming.feed.domain.AnimalGender;
 import community.whatever.petcoming.feed.domain.AnimalType;
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
 import community.whatever.petcoming.feed.dto.LostPetFeedFullResponse;
 import community.whatever.petcoming.feed.dto.LostPetFeedInfoResponse;
+import community.whatever.petcoming.feed.dto.LostPetFeedSubmitRequest;
 import community.whatever.petcoming.feed.service.LostPetFeedService;
 import community.whatever.petcoming.member.service.MemberService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -16,19 +19,31 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.request.RequestDocumentation;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WithMockUser
 @MockBean(JpaMetamodelMappingContext.class)
@@ -47,6 +62,17 @@ class LostPetFeedRestControllerTest {
 
     private final String LOST_PET_FEED_URL = "/api/v1/feed/lost-pet/";
     private final String DOCUMENT_IDENTIFIER_PREFIX = "LostPetFeed/";
+
+    @BeforeEach
+    public void setUp() {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("sub", "1234567890");
+        OidcIdToken idToken = new OidcIdToken("asdf", Instant.now(), Instant.now().plusSeconds(60), claims);
+        OAuth2UserAuthority authority = new OAuth2UserAuthority("ROLE_USER", claims);
+        OidcUser oidcUser = new DefaultOidcUser(Collections.singletonList(authority), idToken);
+
+        SecurityContextHolder.getContext().setAuthentication(new OAuth2AuthenticationToken(oidcUser, Collections.emptyList(), "oidc"));
+    }
 
     @Test
     @DisplayName("찾아주세요 피드 목록 조회. 첫 조회")
@@ -69,6 +95,7 @@ class LostPetFeedRestControllerTest {
         list.add(response);
 
         BDDMockito.given(lostPetFeedService.getLostPetFeedInfoList(
+                        ArgumentMatchers.anyLong(),
                         ArgumentMatchers.any(Integer.class),
                         ArgumentMatchers.any(FeedsSortOption.class)))
                 .willReturn(list);
@@ -80,7 +107,7 @@ class LostPetFeedRestControllerTest {
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(
-                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX+"목록_첫조회",
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "목록_첫조회",
                                 Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                                 Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
                         )
@@ -109,6 +136,7 @@ class LostPetFeedRestControllerTest {
         list.add(response);
 
         BDDMockito.given(lostPetFeedService.getLostPetFeedInfoList(
+                        ArgumentMatchers.anyLong(),
                         ArgumentMatchers.any(Long.class),
                         ArgumentMatchers.any(Integer.class),
                         ArgumentMatchers.any(FeedsSortOption.class))
@@ -154,7 +182,7 @@ class LostPetFeedRestControllerTest {
                 .createDate(LocalDateTime.now())
                 .build();
 
-        BDDMockito.given(lostPetFeedService.getLostPetFeedFull(ArgumentMatchers.any()))
+        BDDMockito.given(lostPetFeedService.getLostPetFeedFull(ArgumentMatchers.any(), ArgumentMatchers.any()))
                 .willReturn(fullResponse);
 
         //when, then
@@ -170,5 +198,88 @@ class LostPetFeedRestControllerTest {
                         )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("댕글냥글 피드 작성")
+    void 댕글냥글_피드_작성() throws Exception {
+        //given
+        BDDMockito.doNothing().when(lostPetFeedService).submitFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.any(), ArgumentMatchers.any());
+        BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
+
+        LostPetFeedSubmitRequest dto = LostPetFeedSubmitRequest.builder()
+                .specialNote("특이사항입니다.")
+                .details("세부내용입니다.")
+                .animalType(AnimalType.DOG)
+                .animalGender(AnimalGender.MALE)
+                .breed("말라뮤트")
+                .lostArea("평택역")
+                .contact("010-1234-5678")
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String dtoJson = objectMapper.writeValueAsString(dto);
+
+        MockMultipartFile dtoPart = new MockMultipartFile("dto", "", "application/json", dtoJson.getBytes());
+        MockMultipartFile file1 = new MockMultipartFile("images", "file1.png", "image/png", "some-image".getBytes());
+        MockMultipartFile file2 = new MockMultipartFile("images", "file2.png", "image/png", "some-image".getBytes());
+
+        //when, then
+        mockMvc.perform(MockMvcRequestBuilders.multipart(LOST_PET_FEED_URL + "/submit")
+                        .file(dtoPart)
+                        .file(file1)
+                        .file(file2)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "submit-feed",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        )
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("피드 좋아요")
+    public void likeFeed() throws Exception {
+        // Given
+        BDDMockito.when(lostPetFeedService.likeFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(1L);
+        BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
+
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post(LOST_PET_FEED_URL + "/1/like")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "like-feed",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        )
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("1"));
+    }
+
+    @Test
+    @DisplayName("피드 좋아요 취소")
+    public void unlikeFeed() throws Exception {
+        // Given
+        BDDMockito.when(lostPetFeedService.unlikeFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(0L);
+        BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
+
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post(LOST_PET_FEED_URL + "/1/unlike")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "unlike-feed",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        )
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("0"));
     }
 }

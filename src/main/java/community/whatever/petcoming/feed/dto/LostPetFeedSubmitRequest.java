@@ -3,25 +3,24 @@ package community.whatever.petcoming.feed.dto;
 import community.whatever.petcoming.feed.domain.AnimalGender;
 import community.whatever.petcoming.feed.domain.AnimalType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class LostPetFeedSubmitRequest {
 
-    private final String specialNote;
-    private final String details;
+    private String specialNote;
+    private String details;
 
-    private final AnimalType animalType;
-    private final AnimalGender animalGender;
-    private final String breed;
-    private final String lostArea;
-    private final String contact;
-
-    private final List<MultipartFile> imageFiles;
+    private AnimalType animalType;
+    private AnimalGender animalGender;
+    private String breed;
+    private String lostArea;
+    private String contact;
 }

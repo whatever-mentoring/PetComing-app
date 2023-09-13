@@ -19,6 +19,7 @@ public class LostPetFeedFinder {
 
     private final LostPetFeedRepository lostPetFeedRepository;
     private final UploadImageRepository uploadImageRepository;
+    private final FeedLikeFinder feedLikeFinder;
     private final MemberFinder memberFinder;
 
     public LostPetFeed findById(Long feedId) {
@@ -31,7 +32,7 @@ public class LostPetFeedFinder {
         }
     }
 
-    public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long lastFeedId, Integer size, FeedsSortOption sort) {
+    public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long loginMemberId, Long lastFeedId, Integer size, FeedsSortOption sort) {
         Pageable pageable = sort.getPageable(size);
 
         List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findByIdLessThan(lastFeedId, pageable);
@@ -39,8 +40,12 @@ public class LostPetFeedFinder {
         List<LostPetFeedInfoDto> dtoList = new ArrayList<>();
         for (LostPetFeed feed : lostPetFeeds) {
             Member author = memberFinder.findById(feed.getAuthorId());
-            UploadImage image = uploadImageRepository.findFirstByFeedCategoryAndFeedIdOrderByIdAsc("community", feed.getId()).orElseThrow();
             String authorNickname = author.getNickname();
+
+            Long countFeedLiker = feedLikeFinder.countFeedLikeByFeedCategoryAndFeedId("lost", feed.getId());
+            boolean loginMemberLiked = feedLikeFinder.existsByFeedCategoryAndFeedIdAndLikerId("lost", feed.getId(), loginMemberId);
+
+            UploadImage image = uploadImageRepository.findFirstByFeedCategoryAndFeedIdOrderByIdAsc("lost", feed.getId()).orElseThrow();
 
             LostPetFeedInfoDto dto = LostPetFeedInfoDto.builder()
                     .feedId(feed.getId())
@@ -52,7 +57,8 @@ public class LostPetFeedFinder {
                     .lostArea(feed.getLostArea())
                     .imageUrl(image.getUploadUrl())
                     .viewCount(feed.getViewCount())
-                    .likeCount(100L)
+                    .likeCount(countFeedLiker)
+                    .liked(loginMemberLiked)
                     .build();
             dtoList.add(dto);
         }
@@ -60,11 +66,15 @@ public class LostPetFeedFinder {
         return dtoList;
     }
 
-    public LostPetFeedFullDto getLostPetFeedFull(Long feedId) {
+    public LostPetFeedFullDto getLostPetFeedFull(Long loginMemberId, Long feedId) {
         LostPetFeed feed = findById(feedId);
         String details = feed.getContent();
+
         Member author = memberFinder.findById(feed.getAuthorId());
         String authorNickname = author.getNickname();
+
+        Long countFeedLiker = feedLikeFinder.countFeedLikeByFeedCategoryAndFeedId("lost", feed.getId());
+        boolean loginMemberLiked = feedLikeFinder.existsByFeedCategoryAndFeedIdAndLikerId("lost", feed.getId(), loginMemberId);
 
         List<UploadImage> images = uploadImageRepository.findByFeedCategoryAndFeedIdOrderByFeedIdAsc("lost", feedId);
         List<String> imageUrls = images.stream()
@@ -81,7 +91,8 @@ public class LostPetFeedFinder {
                 .lostArea(feed.getLostArea())
                 .contact(feed.getContact())
                 .viewCount(feed.getViewCount())
-                .likeCount(100L)
+                .likeCount(countFeedLiker)
+                .liked(loginMemberLiked)
                 .imageUrls(imageUrls)
                 .details(details)
                 .createDate(feed.getCreateDate())
