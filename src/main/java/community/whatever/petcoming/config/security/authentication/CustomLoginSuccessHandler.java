@@ -23,6 +23,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .domain(".petcoming.xyz")
                 .path("/")
                 .httpOnly(true)
+                .secure(true)  // Secure flag 추가
+                .sameSite("Lax")  // SameSite policy 추가
                 .maxAge(maxAge)
                 .build();
 
