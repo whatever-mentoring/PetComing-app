@@ -33,7 +33,7 @@ public class SecurityConfig {
     private CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("https://pet-coming.vercel.app");
+        configuration.addAllowedOrigin("https://petcoming.xyz");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setMaxAge(3600L);
