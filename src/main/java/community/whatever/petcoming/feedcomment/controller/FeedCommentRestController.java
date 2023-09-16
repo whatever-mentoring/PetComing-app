@@ -5,7 +5,6 @@ import community.whatever.petcoming.feedcomment.dto.FeedCommentSubmitRequest;
 import community.whatever.petcoming.feedcomment.service.FeedCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +17,9 @@ public class FeedCommentRestController {
 
     private final FeedCommentService feedCommentService;
 
-    @PostMapping({"/{feedId}/submit"})
-    public ResponseEntity<Void> submitFeedComment(@LoginMemberId Long memberId, @PathVariable Long feedId,
-                                                  @RequestBody FeedCommentSubmitRequest dto) {
-        feedCommentService.submitFeedComment(memberId, feedId, dto);
+    @PostMapping({"/submit"})
+    public ResponseEntity<Void> submitFeedComment(@LoginMemberId Long memberId, @RequestBody FeedCommentSubmitRequest dto) {
+        feedCommentService.submitFeedComment(memberId, dto);
         return ResponseEntity.ok().build();
     }
 }

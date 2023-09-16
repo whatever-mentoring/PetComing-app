@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 public class FeedCommentSubmitRequest {
 
     private String category; // community, lost
+    private Long feedId;
     private String comment;
 }

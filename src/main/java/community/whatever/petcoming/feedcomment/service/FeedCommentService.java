@@ -13,7 +13,7 @@ public class FeedCommentService {
     private final FeedCommentEditor feedCommentEditor;
 
     @Transactional
-    public void submitFeedComment(Long memberId, Long feedId, FeedCommentSubmitRequest comment) {
-        feedCommentEditor.saveFeedComment(memberId, feedId, comment.getCategory(), comment.getComment());
+    public void submitFeedComment(Long memberId, FeedCommentSubmitRequest comment) {
+        feedCommentEditor.saveFeedComment(memberId, comment.getCategory(), comment.getFeedId(), comment.getComment());
     }
 }
