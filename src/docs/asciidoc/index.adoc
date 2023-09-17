@@ -24,3 +24,4 @@
 include::auth.adoc[]
 include::lostPetFeed.adoc[]
 include::communityFeed.adoc[]
+include::feedComment.adoc[]

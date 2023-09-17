@@ -1,0 +1,21 @@
+== 피드 댓글
+
+=== 1. 피드 댓글
+
+==== 1.1 댓글 작성
+
+category는 "community"와 "lost"가 있습니다.
+
+===== Request
+include::{snippets}/FeedComment/submit-feed-comment/http-request.adoc[]
+
+===== Response
+include::{snippets}/FeedComment/submit-feed-comment/http-response.adoc[]
+
+==== 1.2 댓글 조회
+
+===== Request
+include::{snippets}/FeedComment/read-feed-comments/http-request.adoc[]
+
+===== Response
+include::{snippets}/FeedComment/read-feed-comments/http-response.adoc[]
