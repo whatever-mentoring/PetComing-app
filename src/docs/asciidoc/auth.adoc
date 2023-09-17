@@ -78,7 +78,7 @@ X-Frame-Options: DENY
 Content-Length: 472
 
 {
-    "nickname": "petcomming",
-    "profileImageUrl": "http://k.kakaocdn.net_사용자카카오프로필URL"
+    "id": 1,
+    "nickname": "재능있는미어캣1"
 }
 ----
