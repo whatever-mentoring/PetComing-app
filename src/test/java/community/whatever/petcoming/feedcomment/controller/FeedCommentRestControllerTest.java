@@ -1,8 +1,8 @@
 package community.whatever.petcoming.feedcomment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import community.whatever.petcoming.feedcomment.dto.FeedCommentListRequest;
 import community.whatever.petcoming.feedcomment.dto.FeedCommentResponse;
+import community.whatever.petcoming.feedcomment.dto.FeedCommentSubmitRequest;
 import community.whatever.petcoming.feedcomment.service.FeedCommentService;
 import community.whatever.petcoming.member.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,7 +74,7 @@ class FeedCommentRestControllerTest {
         BDDMockito.doNothing().when(feedCommentService).submitFeedComment(ArgumentMatchers.anyLong(), ArgumentMatchers.any());
         BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
 
-        FeedCommentListRequest dto = new FeedCommentListRequest("community", 1L);
+        FeedCommentSubmitRequest dto = new FeedCommentSubmitRequest("community", 1L, "댓글 내용입니다.");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String dtoJson = objectMapper.writeValueAsString(dto);
@@ -119,7 +119,7 @@ class FeedCommentRestControllerTest {
                         .build()
         );
 
-        BDDMockito.when(feedCommentService.getCommunityFeedCommentList(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong()))
+        BDDMockito.when(feedCommentService.getCommunityFeedCommentList(ArgumentMatchers.any(), ArgumentMatchers.any()))
                 .thenReturn(mockResponses);
 
         // When, Then
