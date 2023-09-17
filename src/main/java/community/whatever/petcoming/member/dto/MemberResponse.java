@@ -9,6 +9,7 @@ import lombok.Getter;
 @Builder
 public class MemberResponse {
 
+    private Long id;
     private String nickname;
     private String profileImageUrl;
 }

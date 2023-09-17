@@ -16,7 +16,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberResponse getMemberResponseByMemberId(Long memberId) {
         Member member = memberFinder.findById(memberId);
-        return new MemberResponse(member.getNickname(), member.getProfileImageUrl());
+        return new MemberResponse(member.getId(), member.getNickname(), member.getProfileImageUrl());
     }
 
     @Transactional(readOnly = true)
