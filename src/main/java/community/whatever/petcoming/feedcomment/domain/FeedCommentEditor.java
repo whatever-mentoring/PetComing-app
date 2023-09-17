@@ -14,15 +14,18 @@ public class FeedCommentEditor {
     private final LostPetFeedFinder lostPetFeedFinder;
     private final CommunityFeedFinder communityFeedFinder;
 
-    public void saveFeedComment(Long memberId, Long feedId, String category, String comment) {
+    public void saveFeedComment(Long memberId, String category, Long feedId, String comment) {
         if (category.equals("community")) {
             communityFeedFinder.existsOrThrowById(feedId);
         } else if (category.equals("lost")) {
             lostPetFeedFinder.existsOrThrowById(feedId);
+        } else {
+            throw new IllegalArgumentException("Wrong category=" + category);
         }
 
         FeedComment feedComment = FeedComment.builder()
                 .content(comment)
+                .feedCategory(category)
                 .feedId(feedId)
                 .authorId(memberId)
                 .build();

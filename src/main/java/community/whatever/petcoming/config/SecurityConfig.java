@@ -7,6 +7,7 @@ import community.whatever.petcoming.member.service.CustomOidcUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -50,7 +51,9 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/api/v1/member/auth-check", "/api/v1/feed/community/**", "/api/v1/feed/lost-pet/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/feed/community/**", "/api/v1/feed/lost-pet/**", "/api/v1/feed/comment/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/feed/community/**", "/api/v1/feed/lost-pet/**", "/api/v1/feed/comment/**").authenticated()
+                .antMatchers("/", "/api/v1/member/auth-check", "/api/v1/feed/lost-pet/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

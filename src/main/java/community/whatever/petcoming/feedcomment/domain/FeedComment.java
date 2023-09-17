@@ -28,6 +28,9 @@ public class FeedComment extends BaseEntity {
     @Column(name = "content", length = 255)
     private String content;
 
+    @Column(name = "feed_category")
+    private String feedCategory;
+
     @Column(name = "feed_id")
     private Long feedId;
 
