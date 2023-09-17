@@ -8,10 +8,10 @@ import community.whatever.petcoming.feedcomment.service.FeedCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class FeedCommentRestController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<FeedCommentResponse>> getFeedCommentList(@RequestParam FeedCommentListRequest dto) {
+    public ResponseEntity<List<FeedCommentResponse>> getFeedCommentList(@ModelAttribute FeedCommentListRequest dto) {
         return ResponseEntity.ok().body(feedCommentService.getCommunityFeedCommentList(dto.getCategory(), dto.getFeedId()));
     }
 }
