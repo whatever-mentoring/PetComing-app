@@ -93,6 +93,12 @@ public class CommunityFeedService {
     }
 
     @Transactional
+    public void deleteFeed(Long memberId, Long feedId) {
+        CommunityFeed myFeed = communityFeedFinder.isAuthorOrThrow(memberId, feedId);
+        myFeed.softDelete();
+    }
+
+    @Transactional
     public Long likeFeed(Long memberId, Long feedId) {
         return communityFeedEditor.likeFeed(memberId, feedId);
     }
