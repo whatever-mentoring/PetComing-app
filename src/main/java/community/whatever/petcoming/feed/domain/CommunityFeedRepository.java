@@ -12,6 +12,6 @@ public interface CommunityFeedRepository extends JpaRepository<CommunityFeed, Lo
     List<CommunityFeed> findByIdLessThan(Long lastFeedId, Pageable pageable);
 
     @Modifying
-    @Query("UPDATE CommunityFeed f SET f.viewCount = f.viewCount + 1 WHERE f.id = :id")
+    @Query("UPDATE CommunityFeed f SET f.viewCount = f.viewCount + 1 WHERE f.id = :id AND f.isDeleted = false")
     void increaseViewCountById(Long id);
 }

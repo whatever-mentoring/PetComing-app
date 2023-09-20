@@ -48,4 +48,8 @@ public abstract class Feed extends BaseEntity {
     public String getContent() {
         return content.getContent();
     }
+
+    public void softDelete() {
+        isDeleted = true;
+    }
 }

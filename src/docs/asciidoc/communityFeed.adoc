@@ -1,5 +1,7 @@
 == 댕글냥글 피드(CommunityFeed)
 
+※ "_csrf"는 무시해 주세요!
+
 === 1. 피드 목록 조회
 
 |====
@@ -42,13 +44,11 @@ include::{snippets}/CommunityFeed/전체피드조회/httpie-request.adoc[]
 ===== Response
 include::{snippets}/CommunityFeed/전체피드조회/http-response.adoc[]
 
-=== 3. 피드 작성
+=== 3. 피드 작성 및 삭제
 
 ==== 3.1 피드 작성 요청
 
 ===== Request
-
-※ "_csrf"는 무시해 주세요!
 
 include::{snippets}/CommunityFeed/submit-feed/curl-request.adoc[]
 include::{snippets}/CommunityFeed/submit-feed/httpie-request.adoc[]
@@ -57,11 +57,20 @@ include::{snippets}/CommunityFeed/submit-feed/http-request.adoc[]
 ===== Response
 include::{snippets}/CommunityFeed/submit-feed/http-response.adoc[]
 
+==== 3.2 피드 삭제 요청
+
+===== Request
+
+`/api/v1/feed/community{feedId}/delete`
+
+include::{snippets}/CommunityFeed/delete-feed/httpie-request.adoc[]
+
+===== Response
+include::{snippets}/CommunityFeed/delete-feed/http-response.adoc[]
+
 === 4. 피드 좋아요
 
 ==== 4.1 피드 좋아요
-
-※ "_csrf"는 무시해 주세요!
 
 ===== Request
 include::{snippets}/CommunityFeed/like-feed/httpie-request.adoc[]
@@ -72,8 +81,6 @@ include::{snippets}/CommunityFeed/like-feed/http-response.adoc[]
 include::{snippets}/CommunityFeed/like-feed/response-body.adoc[]
 
 ==== 4.2 피드 좋아요 취소
-
-※ "_csrf"는 무시해 주세요!
 
 ===== Request
 include::{snippets}/CommunityFeed/unlike-feed/httpie-request.adoc[]
