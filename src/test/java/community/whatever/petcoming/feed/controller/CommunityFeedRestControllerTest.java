@@ -263,4 +263,23 @@ class CommunityFeedRestControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("0"));
     }
+
+    @Test
+    @DisplayName("피드 삭제")
+    public void deleteFeed() throws Exception {
+        BDDMockito.doNothing().when(communityFeedService).deleteFeed(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong());
+        BDDMockito.when(memberService.findIdByProviderIdAndSubject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(1L);
+
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post(COMMUNITY_FEED_URL + "/1/delete") //"/{feedId}/delete
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(
+                        MockMvcRestDocumentation.document(DOCUMENT_IDENTIFIER_PREFIX + "delete-feed",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        )
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }
