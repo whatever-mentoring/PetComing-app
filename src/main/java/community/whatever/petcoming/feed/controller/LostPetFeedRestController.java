@@ -65,6 +65,12 @@ public class LostPetFeedRestController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{feedId}/delete")
+    public ResponseEntity<Void> deleteFeed(@LoginMemberId Long memberId, @PathVariable Long feedId) {
+        lostPetFeedService.deleteFeed(memberId, feedId);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("{feedId}/like")
     public ResponseEntity<Long> likeFeed(
             @LoginMemberId Long memberId,

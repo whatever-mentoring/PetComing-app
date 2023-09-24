@@ -61,7 +61,7 @@ include::{snippets}/CommunityFeed/submit-feed/http-response.adoc[]
 
 ===== Request
 
-`/api/v1/feed/community{feedId}/delete`
+`/api/v1/feed/community/{feedId}/delete`
 
 include::{snippets}/CommunityFeed/delete-feed/httpie-request.adoc[]
 

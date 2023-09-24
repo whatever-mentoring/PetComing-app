@@ -80,6 +80,17 @@ include::{snippets}/LostPetFeed/submit-feed/http-request.adoc[]
 ===== Response
 include::{snippets}/LostPetFeed/submit-feed/http-response.adoc[]
 
+==== 3.2 피드 삭제 요청
+
+===== Request
+
+`/api/v1/feed/lost-pet/{feedId}/delete`
+
+include::{snippets}/LostPetFeed/delete-feed/httpie-request.adoc[]
+
+===== Response
+include::{snippets}/LostPetFeed/delete-feed/http-response.adoc[]
+
 === 4. 피드 좋아요
 
 ==== 4.1 피드 좋아요

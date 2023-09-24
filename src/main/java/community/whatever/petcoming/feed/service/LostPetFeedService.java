@@ -98,6 +98,12 @@ public class LostPetFeedService {
     }
 
     @Transactional
+    public void deleteFeed(Long memberId, Long feedId) {
+        LostPetFeed myFeed = lostPetFeedFinder.isAuthorOrThrow(memberId, feedId);
+        myFeed.softDelete();
+    }
+
+    @Transactional
     public Long likeFeed(Long memberId, Long feedId) {
         return lostPetFeedEditor.likeFeed(memberId, feedId);
     }
