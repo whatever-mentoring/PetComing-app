@@ -3,16 +3,17 @@ package community.whatever.petcoming.feed.controller;
 import community.whatever.petcoming.config.resolver.LoginMemberId;
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
 import community.whatever.petcoming.feed.dto.LostPetFeedFullResponse;
+import community.whatever.petcoming.feed.dto.LostPetFeedGetRequest;
 import community.whatever.petcoming.feed.dto.LostPetFeedInfoResponse;
 import community.whatever.petcoming.feed.dto.LostPetFeedSubmitRequest;
 import community.whatever.petcoming.feed.service.LostPetFeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,22 +31,28 @@ public class LostPetFeedRestController {
     @GetMapping(params = {"size"})
     public ResponseEntity<List<LostPetFeedInfoResponse>> getLostPetFeedInfoList(
             @LoginMemberId Long memberId,
-            @RequestParam Integer size,
-            @RequestParam(required = false) FeedsSortOption sort
+            @ModelAttribute LostPetFeedGetRequest dto
     ) {
-        if (sort == null) {sort = FeedsSortOption.LATEST;}
-        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(memberId, size, sort));
+        FeedsSortOption sort = dto.getSort();
+        if (sort == null) {
+            sort = FeedsSortOption.LATEST;
+        }
+        return ResponseEntity.ok().body(
+                lostPetFeedService.getLostPetFeedInfoList(memberId, dto.getSize(), sort,
+                        dto.getKeyword(), dto.getAnimalGender(), dto.getAnimalType())
+        );
     }
 
     @GetMapping(params = {"last-feed", "size"})
-    public ResponseEntity<List<LostPetFeedInfoResponse>> getLostPetFeedInfoList(
+    public ResponseEntity<List<LostPetFeedInfoResponse>> getLostPetFeedInfoListWithLastFeed(
             @LoginMemberId Long memberId,
-            @RequestParam("last-feed") Long lastFeedId,
-            @RequestParam Integer size,
-            @RequestParam(required = false) FeedsSortOption sort
+            @ModelAttribute LostPetFeedGetRequest dto
     ) {
+        FeedsSortOption sort = dto.getSort();
         if (sort == null) {sort = FeedsSortOption.LATEST;}
-        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(memberId, lastFeedId, size, sort));
+        return ResponseEntity.ok().body(lostPetFeedService.getLostPetFeedInfoList(memberId, dto.getLastFeedId(), dto.getSize(), sort,
+                dto.getKeyword(), dto.getAnimalGender(), dto.getAnimalType())
+        );
     }
 
     @GetMapping("/{feedId}")
@@ -62,6 +69,12 @@ public class LostPetFeedRestController {
             @RequestPart(value = "dto") LostPetFeedSubmitRequest dto,
             @RequestPart(value = "images") List<MultipartFile> imageFiles) throws IOException {
         lostPetFeedService.submitFeed(memberId, dto, imageFiles);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{feedId}/delete")
+    public ResponseEntity<Void> deleteFeed(@LoginMemberId Long memberId, @PathVariable Long feedId) {
+        lostPetFeedService.deleteFeed(memberId, feedId);
         return ResponseEntity.ok().build();
     }
 

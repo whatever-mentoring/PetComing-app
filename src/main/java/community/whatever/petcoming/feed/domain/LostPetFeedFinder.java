@@ -6,6 +6,7 @@ import community.whatever.petcoming.uploadimage.domain.UploadImage;
 import community.whatever.petcoming.uploadimage.domain.UploadImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -32,10 +33,10 @@ public class LostPetFeedFinder {
         }
     }
 
-    public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long loginMemberId, Long lastFeedId, Integer size, FeedsSortOption sort) {
+    public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long loginMemberId, Long lastFeedId, Integer size, FeedsSortOption sort, String keyword, AnimalGender animalGender, AnimalType animalType) {
         Pageable pageable = sort.getPageable(size);
 
-        List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findByIdLessThan(lastFeedId, pageable);
+        List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findWithFilters(lastFeedId, keyword, animalGender, animalType, pageable);
 
         List<LostPetFeedInfoDto> dtoList = new ArrayList<>();
         for (LostPetFeed feed : lostPetFeeds) {
@@ -97,5 +98,14 @@ public class LostPetFeedFinder {
                 .details(details)
                 .createDate(feed.getCreateDate())
                 .build();
+    }
+
+    public LostPetFeed isAuthorOrThrow(Long accessorId, Long feedId) {
+        LostPetFeed feed = findById(feedId);
+        Long authorId = feed.getAuthorId();
+        if (!accessorId.equals(authorId)) {
+            throw new AccessDeniedException("작성자가 아닙니다.");
+        }
+        return feed;
     }
 }
