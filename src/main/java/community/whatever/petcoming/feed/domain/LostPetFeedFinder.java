@@ -33,10 +33,10 @@ public class LostPetFeedFinder {
         }
     }
 
-    public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long loginMemberId, Long lastFeedId, Integer size, FeedsSortOption sort) {
+    public List<LostPetFeedInfoDto> getLostPetFeedInfoList(Long loginMemberId, Long lastFeedId, Integer size, FeedsSortOption sort, String keyword, AnimalGender animalGender, AnimalType animalType) {
         Pageable pageable = sort.getPageable(size);
 
-        List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findByIdLessThan(lastFeedId, pageable);
+        List<LostPetFeed> lostPetFeeds = lostPetFeedRepository.findWithFilters(lastFeedId, keyword, animalGender, animalType, pageable);
 
         List<LostPetFeedInfoDto> dtoList = new ArrayList<>();
         for (LostPetFeed feed : lostPetFeeds) {

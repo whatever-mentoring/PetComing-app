@@ -1,6 +1,8 @@
 package community.whatever.petcoming.feed.service;
 
 import community.whatever.petcoming.common.infra.S3Uploader;
+import community.whatever.petcoming.feed.domain.AnimalGender;
+import community.whatever.petcoming.feed.domain.AnimalType;
 import community.whatever.petcoming.feed.domain.FeedContent;
 import community.whatever.petcoming.feed.domain.FeedsSortOption;
 import community.whatever.petcoming.feed.domain.LostPetFeed;
@@ -38,14 +40,14 @@ public class LostPetFeedService {
     private final LostPetFeedEditor lostPetFeedEditor;
 
     @Transactional(readOnly = true)
-    public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Long memberId, Integer size, FeedsSortOption sort) {
+    public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Long memberId, Integer size, FeedsSortOption sort, String keyword, AnimalGender animalGender, AnimalType animalType) {
         // 클래스 내부 코드 호출
-        return getLostPetFeedInfoList(memberId, Long.MAX_VALUE, size, sort);
+        return getLostPetFeedInfoList(memberId, Long.MAX_VALUE, size, sort, keyword, animalGender, animalType);
     }
 
     @Transactional(readOnly = true)
-    public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Long memberId, Long lastFeedId, Integer size, FeedsSortOption sort) {
-        List<LostPetFeedInfoDto> dtoList = lostPetFeedFinder.getLostPetFeedInfoList(memberId, lastFeedId, size, sort);
+    public List<LostPetFeedInfoResponse> getLostPetFeedInfoList(Long memberId, Long lastFeedId, Integer size, FeedsSortOption sort, String keyword, AnimalGender animalGender, AnimalType animalType) {
+        List<LostPetFeedInfoDto> dtoList = lostPetFeedFinder.getLostPetFeedInfoList(memberId, lastFeedId, size, sort, keyword, animalGender, animalType);
 
         return dtoList.stream()
                 .map(LostPetFeedInfoResponse::of)

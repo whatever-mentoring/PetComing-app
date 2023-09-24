@@ -94,16 +94,27 @@ class LostPetFeedRestControllerTest {
                 .build();
         list.add(response);
 
+        String keyword = "고양이";
+        AnimalGender animalGender = AnimalGender.MALE;
+        AnimalType animalType = AnimalType.CAT;
+
         BDDMockito.given(lostPetFeedService.getLostPetFeedInfoList(
                         ArgumentMatchers.anyLong(),
+                        ArgumentMatchers.anyLong(),
                         ArgumentMatchers.any(Integer.class),
-                        ArgumentMatchers.any(FeedsSortOption.class)))
+                        ArgumentMatchers.any(FeedsSortOption.class),
+                        ArgumentMatchers.eq(keyword),
+                        ArgumentMatchers.eq(animalGender),
+                        ArgumentMatchers.eq(animalType)))
                 .willReturn(list);
 
         //when, then
         mockMvc.perform(MockMvcRequestBuilders.get(LOST_PET_FEED_URL)
                         .param("size", "10")
                         .param("sort", "LATEST")
+                        .param("keyword", keyword)
+                        .param("animalGender", animalGender.name())
+                        .param("animalType", animalType.name())
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(
@@ -135,12 +146,18 @@ class LostPetFeedRestControllerTest {
                 .build();
         list.add(response);
 
+        String keyword = "고양이";
+        AnimalGender animalGender = AnimalGender.MALE;
+        AnimalType animalType = AnimalType.CAT;
+
         BDDMockito.given(lostPetFeedService.getLostPetFeedInfoList(
                         ArgumentMatchers.anyLong(),
-                        ArgumentMatchers.any(Long.class),
+                        ArgumentMatchers.anyLong(),
                         ArgumentMatchers.any(Integer.class),
-                        ArgumentMatchers.any(FeedsSortOption.class))
-                )
+                        ArgumentMatchers.any(FeedsSortOption.class),
+                        ArgumentMatchers.eq(keyword),
+                        ArgumentMatchers.eq(animalGender),
+                        ArgumentMatchers.eq(animalType)))
                 .willReturn(list);
 
         //when, then
@@ -148,6 +165,9 @@ class LostPetFeedRestControllerTest {
                         .param("last-feed", "1")
                         .param("size", "10")
                         .param("sort", "POPULAR")
+                        .param("keyword", keyword)
+                        .param("gender", animalGender.name())
+                        .param("animalType", animalType.name())
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(
